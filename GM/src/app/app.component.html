@@ -1,0 +1,16 @@
+<general-motor-navbar user="Rinki Singh" *ngIf="showHeader" [showRoutes]="showRoute"></general-motor-navbar>
+<div class="site-contact" *ngIf="showHelp">
+  <div class="container">
+    <general-motor-info-navbar [showHelp]="showHelp"></general-motor-info-navbar>
+  </div>
+</div>
+<div class="site-contact">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<div class="footer">
+  <div class="container">
+    <general-motor-footer></general-motor-footer>
+  </div>
+</div>

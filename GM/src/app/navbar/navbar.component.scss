@@ -1,0 +1,18 @@
+@import "../../assets/styles/scss/index";
+
+.main-header {
+  .mat-toolbar {
+    background: $darkblue;
+    .mat-toolbar-row {
+      padding: 0;
+    }
+  }
+}
+
+.cu-btn {
+  margin: 10px 0;
+  .secondary-btn {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}

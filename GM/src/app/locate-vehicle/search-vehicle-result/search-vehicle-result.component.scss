@@ -1,0 +1,93 @@
+@import "../../../assets/styles/scss/index";
+
+.criteria {
+  float: left;
+  width: 100%;
+  .search-location-block {
+    width: 73%;
+    float: left;
+    margin-right: 2%;
+    @include mobile {
+      width: 100%;
+    }
+  }
+  .quick-links-block {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+.vin-link {
+  &:hover {
+    cursor: pointer;
+  }
+}
+.inventory-bac {
+  float: left;
+  width: 100%;
+  .search-location-results {
+    .sub-title {
+      margin-bottom: 0;
+    }
+    .mat-table {
+      min-width: 100%;
+      max-height: 400px;
+      .mat-header-row {
+        background: $lightsteelblue;
+        .mat-header-cell {
+          color: $darkblue;
+          font-size: 16px;
+          @extend .font-roboto-light;
+          overflow: visible;
+          width: 9%;
+          text-align: left;
+          flex: auto;
+          .mat-sort-header-button {
+            text-align: left !important;
+          }
+          &:first-child {
+            width: 40px;
+          }
+
+        }
+      }
+      .mat-row {
+        .mat-cell {
+          overflow: visible;
+          width: 9%;
+          text-align: left;
+          flex: auto;
+          &:first-child {
+            width: 40px;
+          }
+        }
+        .other-infor-icon {
+          display: table;
+          button {
+            display: table-cell;
+            color: $dodgerblue;
+            width: 20px;
+            height: 40px;
+            .material-icons {
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .cu-btn {
+    margin-top: 10px;
+    text-align: right;
+  }
+}
+
+mat-table .error {
+  flex: 1 0 100%; // <- to the error while take all the rows
+  text-align: center; // <- cause its pretty
+  color:red; // <- cause red errors are so neat
+
+  &:not(.displayed) {
+    display: none; // <- only way for me to do that
+  }
+}

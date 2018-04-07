@@ -1,0 +1,122 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif"/>
+</div>
+
+<general-motor-info-navbar (printClicked)="printDoc()" [showPrint]="true" [showHelp]="true" [enablePrint]="enablePrint"></general-motor-info-navbar>
+<div class="compare-select">
+  <mat-form-field>
+    <mat-select placeholder="Report For" [(ngModel)]="selectedView">
+      <mat-option value="Customer">Customer</mat-option>
+      <mat-option value="Dealer">Dealer</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div id="printArea">
+  <div class="side-comparision">
+    <mat-expansion-panel expanded="true" id="comparision-body">
+      <mat-expansion-panel-header class="heading-dropdown-title">
+        <mat-panel-title>
+          Side by side comparision
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="side-comparision-table">
+        <table id="vehicle-comparision">
+          <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let data of result">{{ data.Year }} {{ data.MakeString }} {{ data.ModelDescription }} {{ data.BodyStyle }}  {{ data.VIN }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><span>MSRP</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['MSRP'].Value | customCurrency }}</td>
+          </tr>
+          <tr>
+            <td><span>PEG</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['PEG'].OptionCode }} - {{ vehicle['PEG'].OptionDescription }}</td>
+          </tr>
+          <tr>
+            <td><span>Primary Color</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['primaryColor'].OptionCode }} - {{ vehicle['primaryColor'].OptionDescription }} </td>
+          </tr>
+          <tr>
+            <td><span>Engine</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['engine'].OptionCode }} - {{ vehicle['engine'].OptionDescription }}</td>
+          </tr>
+          <tr>
+            <td><span>Transmission</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['transmission'].OptionCode }} - {{ vehicle['transmission'].OptionDescription }}</td>
+          </tr>
+          <tr>
+            <td><span>Engine</span></td>
+            <td *ngFor="let vehicle of result"> {{ vehicle['engine'].OptionCode }} - {{ vehicle['engine'].OptionDescription }}</td>
+          </tr>
+          <tr *ngIf="selectedView === 'Dealer'">
+            <td>
+              <span class="btn">Print Invoice</span>
+              <div class="cu-btn">
+                <div class="primary-btn">
+                  <button mat-raised-button color="primary" (click)="printAllInvoice()">
+                    Print All
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td *ngFor="let vehicle of result"><a (click)="printInvoice(vehicle['InvoiceNumber'])" class="list-item-link">Print Invoice</a></td>
+          </tr>
+          <tr>
+            <td><span>Look up Incentives by VIN</span></td>
+            <td *ngFor="let vehicle of result"><a (click)="showIncentives(vehicle)" class="list-item-link">Look up Incentives by VIN</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="side-comparision-options">
+        Different Options
+        <table id="vehicle-different-option">
+          <tr class="no-display">
+            <td>Different Options</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let option of differentOption">
+            <td>{{ allOptions[option] }}</td>
+            <td *ngFor="let r of result">
+
+              <i class="material-icons close-icon-check" *ngIf="newData[r.VinNumber].indexOf(option) !== -1">done</i>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="side-comparision-options">
+        Similar Options
+        <table id="vehicle-similar-option">
+          <tr class="no-display">
+            <td>Similar Options</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let option of sameOption">
+            <td>{{ allOptions[option] }}</td>
+            <td *ngFor="let r of result">
+              <i class="material-icons close-icon-check">done</i>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <div class="vin-disclaimer-wrp">
+    <span>Disclaimer:</span>
+    <div class="vin-disclaimer-text" id="vin-disclaimer-text">
+      <p>GM has tried to make the pricing information provided in this summary accurate. Please refer to actual
+        vehicle invoice, however, for complete pricing information. GM will not make any sales or policy adjustments
+        in the case of inaccurate pricing information in this summary.
+        Cash Allowance is calculated based on your dealership's zip code. Customer must take delivery by
+        01/02/2018.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+@import "../../assets/styles/scss/index";
+
+.report-detail {
+  .report-detail-top {
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    .report-detail-type {
+      display: table-cell;
+      vertical-align: top;
+      padding-right: 20px;
+      .mat-form-field {
+        width: 100%;
+      }
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+  .report-detail-summary {
+    .report-detail-dealer {
+      margin-top: 10px;
+      .detail-dealer-input {
+        display: inline-block;
+        width: 31%;
+        padding-right: 2%;
+        .mat-form-field {
+          width: 100%;
+        }
+        &:last-child {
+          width: 32%;
+          padding-right: 0;
+        }
+        &.print {
+          display: none;
+        }
+      }
+      .detail-dealer-table {
+        table {
+          width: 100%;
+          border-spacing: 0;
+          thead {
+            th {
+              background: $dodgerblue;
+              color: $white;
+              font-size: 16px;
+              @extend .font-roboto-regular;
+              padding: 8px;
+              border-left: 1px solid #7c8aab;
+              border-bottom: 1px solid #7c8aab;
+              &:last-child {
+                border-right: 1px solid #7c8aab;
+              }
+            }
+          }
+          td {
+            color: $darkblue;
+            font-size: 16px;
+            @extend .font-roboto-regular;
+            padding: 8px;
+            text-align: center;
+            border-left: 1px solid #7c8aab;
+            border-bottom: 1px solid #7c8aab;
+            &:last-child {
+              border-right: 1px solid #7c8aab;
+            }
+          }
+        }
+      }
+    }
+    .report-detail-summary {
+      .detail-summary-table {
+        padding-top: 10px;
+        table {
+          width: 100%;
+          td {
+            color: $dimgray;
+            @extend .font-roboto-regular;
+            font-size: $font-sm;
+            vertical-align: top;
+            padding-bottom: 5px;
+            span {
+              color: $darkblue;
+            }
+            p {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+
+    }
+    .vin-disclaimer-wrp {
+      span {
+        font-size: 16px;
+        color: $darkblue;
+        @extend .font-roboto-regular;
+      }
+      .vin-disclaimer-text {
+        padding: 10px;
+        background: $dodgerblue;
+        p {
+          color: $white;
+          font-size: $font-sm;
+          @extend .font-roboto-regular;
+          margin: 0 auto;
+        }
+      }
+    }
+    /* Dealer Report  */
+    .dealer-report {
+      margin-top: 10px;
+      .detail-summary-table {
+        table {
+          width: 100%;
+          td {
+            color: $dimgray;
+            @extend .font-roboto-regular;
+            font-size: $font-sm;
+            vertical-align: top;
+            padding-bottom: 5px;
+
+            span {
+              color: $darkblue;
+            }
+          }
+        }
+      }
+    }
+
+    .dealer-vin-order {
+      margin-top: 10px;
+      table {
+        width: 100%;
+        border-spacing: 0;
+        thead {
+          th {
+            background: $dodgerblue;
+            color: $white;
+            font-size: 16px;
+            @extend .font-roboto-regular;
+            padding: 8px;
+            border-left: 1px solid #7c8aab;
+            border-bottom: 1px solid #7c8aab;
+            &:last-child {
+              border-right: 1px solid #7c8aab;
+            }
+          }
+        }
+        tbody {
+          td {
+            color: $dimgray;
+            font-size: $font-sm;
+            @extend .font-roboto-regular;
+            padding: 8px;
+            border-left: 1px solid #7c8aab;
+            border-bottom: 1px solid #7c8aab;
+            &:last-child {
+              border-right: 1px solid #7c8aab;
+            }
+          }
+        }
+      }
+    }
+    .summary-report {
+      .sub-title-border {
+        width: 100%;
+        display: block;
+      }
+      .dealer-options {
+        display: table;
+        width: 100%;
+        margin: 10px auto;
+        .dealer-options-left {
+          display: table-cell;
+          color: $darkblue;
+          font-size: 16px;
+          @extend .font-roboto-regular;
+          padding-right: 8px;
+        }
+        .dealer-options-right {
+          display: table-cell;
+          span {
+            color: $dodgerblue;
+            font-size: $font-sm;
+            @extend .font-roboto-regular;
+          }
+        }
+      }
+    }
+    .summary-dealer-info {
+      font-size: $font-sm;
+      color: $darkblue;
+      @extend .font-roboto-regular;
+      margin: 10px auto;
+    }
+    .cu-btn {
+      text-align: right;
+    }
+  }
+}

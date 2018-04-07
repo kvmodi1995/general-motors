@@ -1,0 +1,36 @@
+@import '../../../assets/styles/scss/index';
+
+.dealer-owning-table {
+  margin-top: 10px;
+  table {
+    width: 100%;
+    border-spacing: 0;
+    thead {
+      th {
+        background: $dodgerblue;
+        color: $white;
+        font-size: 16px;
+        @extend .font-roboto-regular;
+        padding: 8px;
+        border-left: 1px solid #7c8aab;
+        border-bottom: 1px solid #7c8aab;
+        &:last-child {
+          border-right: 1px solid #7c8aab;
+        }
+      }
+    }
+    tbody {
+      td {
+        color: $dimgray;
+        font-size: $font-sm;
+        @extend .font-roboto-regular;
+        padding: 8px;
+        border-left: 1px solid #7c8aab;
+        border-bottom: 1px solid #7c8aab;
+        &:last-child {
+          border-right: 1px solid #7c8aab;
+        }
+      }
+    }
+  }
+}

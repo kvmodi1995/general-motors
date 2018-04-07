@@ -1,0 +1,64 @@
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header class="heading-dropdown-title">
+    <mat-panel-title>
+      Quick Locate
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <span class="mat-error" *ngIf="displayError?.length">
+    No data Found
+  </span>
+  <form [formGroup]="quickForm" #quickLocateForm="ngForm">
+    <mat-radio-group class="example-radio-group" formControlName="searchBy" (change)="onOptionChange($event)">
+      <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+        {{ season }}
+        <span *ngIf="season === 'VIN'">
+        ( Full 17 )
+      </span>
+      </mat-radio-button>
+    </mat-radio-group>
+    <div *ngIf="quickForm.controls['searchBy'].value === 'VIN'">
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="value"
+               #vinInput
+               maxlength="17"
+               minlength="17"
+               (keypress)="checkNumber($event)"
+               (paste)="checkNumber($event)">
+        <span class="mat-error-span"
+              *ngIf="quickForm.controls['value'].touched && vinInput.value.length !== 17">
+          Please enter full 17 digit VIN number
+        </span>
+        <mat-error
+          *ngIf="quickLocateForm.submitted && !(quickForm.controls['value'].touched && vinInput.value.length !== 17)">
+          Please enter full 17 digit VIN number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="quickForm.controls['searchBy'].value === 'Stock #'">
+      <mat-form-field class="example-full-width">
+        <input matInput #stockInput formControlName="value" minlength="10" maxlength="10" required>
+        <mat-error
+          *ngIf="quickLocateForm.submitted || quickForm.controls['value'].touched && quickForm.controls['value'].errors['required']">
+          Please Enter Stock number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="quickForm.controls['searchBy'].value === 'Order #'">
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="value" #orderInput maxlength="6" minlength="6" (keypress)="checkNumber($event)"
+               (paste)="checkNumber($event)">
+        <mat-error
+          *ngIf="quickLocateForm.submitted || quickForm.controls['value'].touched && orderInput.value.length < 6">
+          Enter Valid Order Number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="cu-btn">
+      <div class="primary-btn">
+        <mat-action-row>
+          <button mat-raised-button color="primary" (click)="getQuickLocateData(quickLocateForm)">Locate</button>
+        </mat-action-row>
+      </div>
+    </div>
+  </form>
+</mat-expansion-panel>

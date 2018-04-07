@@ -1,0 +1,143 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif" />
+</div>
+
+<div>
+  <div *ngIf="!result" [ngClass]="{'search-location-block': !modal}">
+    <mat-expansion-panel disabled="true" expanded="true" [ngClass]="{'hide-shadow': modal}">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="heading-title">
+          Search by Location
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="search-location">
+        <span class="text-info-gray">Choose one of the following search methods and enter criteria :</span>
+        <div class="example-container">
+          <form class="example-container" [formGroup]="options" #searchform="ngForm"
+                (submit)="showDealerDetail(searchform)">
+            <div class="search-dealer-form">
+              <mat-radio-group formControlName="selectedSearch" (change)="changeRadio()">
+                <div formGroupName="Dealer Name">
+                  <mat-radio-button value="Dealer Name">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput id="name" placeholder="Dealer Name" formControlName="name">
+                  </mat-form-field>
+                  and State
+                  <mat-form-field>
+                    <mat-select placeholder="State" formControlName="state">
+                      <mat-option *ngFor="let state of states" [value]="state">
+                        {{ state.abbr }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="options.controls['Dealer Name']['controls']['state'].hasError('required')">
+                      Select State
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div formGroupName="Zip Code">
+                  <mat-radio-button value="Zip Code">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput placeholder="Zip Code" #zipCode name="code" formControlName="code" maxlength="5"
+                           (keypress)="checkNumber($event)">
+                    <mat-error *ngIf="zipCode.value?.length < 6">
+                      Enter valid zip code
+                    </mat-error>
+                  </mat-form-field>
+                  within (Mile Radius):
+                  <mat-form-field>
+                    <input matInput placeholder="Radius" #radius formControlName="radius" type="text" maxlength="4"
+                           (keypress)="checkNumber($event)">
+                    <mat-error *ngIf="options.controls['Zip Code']['controls']['radius'].hasError('required')">
+                      Enter valid Radius
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div formGroupName="City">
+                  <mat-radio-button value="City">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput placeholder="City" formControlName="city">
+                    <mat-error
+                      *ngIf="options.controls['City']['controls']['city'].hasError('required')">
+                      Enter valid City.
+                    </mat-error>
+                  </mat-form-field>
+                  and State
+                  <mat-form-field>
+                    <mat-select placeholder="State" formControlName="state">
+                      <mat-option *ngFor="let state of states" [value]="state">
+                        {{ state.abbr }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="options.controls['City']['controls']['state'].hasError('required')">
+                      Select State
+                    </mat-error>
+                  </mat-form-field>
+                  within (mile radius):
+                  <mat-form-field>
+                    <input matInput placeholder="Radius" #radius formControlName="radius" type="text" maxlength="4"
+                           (keypress)="checkNumber($event)">
+                    <mat-error *ngIf="options.controls['City']['controls']['state'].hasError('required')">
+                      Enter valid Radius
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div formGroupName="BAC">
+                  <mat-radio-button value="BAC">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput placeholder="BAC Number" #BAC formControlName="number" maxlength="6"
+                           (keypress)="checkNumber($event)">
+                    <mat-error *ngIf="BAC.value?.length < 6">
+                      Enter valid BAC.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-radio-group>
+            </div>
+            <div class="search-division">
+              <span
+                class="text-info-gray">You may also narrow your search by selecting from the following criteria :</span>
+              <div class="search-division-field">
+                <mat-form-field>
+                  <mat-select placeholder="Search by Division" [(value)]="selectedDivision">
+                    <mat-option *ngFor="let division of divisions" [value]="division">
+                      {{ division }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="cu-btn">
+              <mat-action-row class="primary-btn">
+                <button mat-raised-button color="primary">Locate</button>
+              </mat-action-row>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </div>
+
+  <div *ngIf="result" [ngClass]="{'search-location-block': !modal}">
+    <general-motor-search-result [data]="searchResult" [selectedSearch]="searchCriteria.selectedSearch"
+                                 [searchCriteria]="searchCriteria[searchCriteria.selectedSearch]"
+                                 [division]="selectedDivision"
+                                 (editSearchClicked)="editSearch()">
+    </general-motor-search-result>
+  </div>
+  <div *ngIf="!modal">
+    <div class="quick-links-block">
+      <general-motor-quick-links *ngIf="!showQuickLinks"></general-motor-quick-links>
+    </div>
+  </div>
+</div>

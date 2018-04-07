@@ -1,0 +1,61 @@
+@import "../../assets/styles/scss/index";
+
+.vin-specifications {
+  width: 64%;
+  float: left;
+  margin-right: 2%;
+  .vin-vehicle-options {
+    width: 100%;
+    float: left;
+    margin-top: 20px;
+  }
+  .vin-incomplete {
+    @extend .vin-vehicle-options;
+
+  }
+  .vin-display-footer {
+    @extend .vin-vehicle-options;
+    .vin-display-info {
+      .cu-btn {
+        text-align: right;
+        button {
+          margin: 0 5px;
+        }
+      }
+    }
+    .vin-disclaimer-wrp {
+      span {
+        font-size: 16px;
+        color: $darkblue;
+        @extend .font-roboto-regular;
+      }
+      .vin-disclaimer-text {
+        padding: 10px;
+        background: $dodgerblue;
+        p {
+          color: $white;
+          font-size: $font-sm;
+          @extend .font-roboto-regular;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+.vin-owning-dealer{
+  float: left;
+  .cu-btn {
+    text-align: right;
+    button {
+      margin: 0 5px;
+    }
+  }
+}
+
+.quick-links-block {
+  width: 34%;
+  .standard-payment {
+    margin-top: 20px;
+  }
+}

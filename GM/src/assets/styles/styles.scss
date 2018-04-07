@@ -1,0 +1,853 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $lightsteelblue;
+  ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+  }
+  .full-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .container {
+    width: 980px;
+    margin: 0 auto;
+    @include laptop {
+      width: 940px;
+    }
+    @include tablet {
+      width: 740px;
+    }
+    @include mobile {
+      width: 96%;
+      float: left;
+      padding: 0 2%;
+    }
+  }
+
+  .pl-2 {
+    padding-left: 20px;
+  }
+  .pr-2 {
+    padding-right: 20px;
+  }
+
+  /* Button css */
+  .cu-btn {
+    .secondary-btn {
+      button {
+        background: $dodgerblue;
+        color: $white;
+        @extend .font-roboto-light;
+        letter-spacing: 0.5px;
+        &.active {
+          background: $darkblue;
+        }
+      }
+    }
+    .primary-btn {
+      button {
+        background: $darkblue;
+        color: $white;
+        @extend .font-roboto-light;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+  .cu-sub-btn {
+    display: inline-block;
+    .primary-btn {
+      button {
+        background: $darkblue;
+        color: $white;
+        @extend .font-roboto-light;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+  /* Heading Title */
+  .heading-title {
+    padding-bottom: 10px;
+    border-bottom: 1px solid $dodgerblue;
+    font-size: 20px;
+    color: $darkblue !important;
+    @extend .font-roboto-regular;
+  }
+  .heading-dropdown-title {
+    margin: 0 24px;
+    padding: 0;
+    max-height: 48px !important;
+
+    mat-panel-title {
+      font-size: 20px;
+      color: $darkblue !important;
+      @extend .font-roboto-medium;
+      text-transform: capitalize;
+    }
+    &.mat-expanded {
+      border-bottom: 1px solid $dodgerblue;
+      height: 48px !important;
+    }
+  }
+  .sub-title {
+    font-size: 18px;
+    color: $white;
+    padding: 10px;
+    background: $dodgerblue;
+    margin: 10px 0;
+    @extend .font-roboto-regular;
+  }
+  .sub-title-text {
+    margin: 0;
+    color: #1a6699;
+    font-size: 16px;
+  }
+  .sub-title-border {
+    font-size: 18px;
+    color: $darkblue;
+    padding: 10px 0;
+    border-bottom: 1px solid $darkblue;
+    margin: 10px 0;
+    @extend .font-roboto-regular;
+  }
+  /* Warning */
+  .text-info-gray {
+    color: $dodgerblue;
+  }
+  .mat-error-span {
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    color: $error-red;
+    top: calc(100% - -0.33333em);
+    font-size: 75%;
+    left: 0;
+  }
+  .mat-error-red {
+    color: $error-red;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .mat-error-border {
+    box-shadow: 0 3px 1px -2px rgba(251, 0, 0, 0.50), 0 2px 2px 0 rgba(251, 0, 0, 0.50), 0 1px 5px 0 rgba(251, 0, 0, 0.50);
+  }
+  .mat-error-div {
+    color: $error-red;
+    font-size: 15px;
+    margin: 10px 0;
+  }
+  /* Tooltip */
+  .break-tooltip {
+    white-space: pre-line;
+  }
+  /* Radio Button */
+  .mat-radio-button.mat-accent {
+    .mat-radio-inner-circle {
+      background: $darkblue;
+    }
+    .mat-radio-ripple {
+      .mat-ripple-element {
+        background-color: rgba($darkblue, 0.2);
+      }
+    }
+    &.mat-radio-checked {
+      .mat-radio-outer-circle {
+        border-color: $darkblue;
+      }
+    }
+    .mat-radio-label-content {
+      color: $dimgray;
+    }
+  }
+
+  /* checkbox */
+  .mat-checkbox-checked.mat-accent {
+    .mat-checkbox-background {
+      background-color: $darkblue;
+    }
+  }
+  .mat-checkbox:not(.mat-checkbox-disabled).mat-accent {
+    .mat-checkbox-ripple {
+      .mat-ripple-element {
+        background-color: rgba($darkblue, 0.2);
+      }
+    }
+  }
+  .mat-pseudo-checkbox-checked {
+    background-color: $darkblue;
+  }
+  /* Checkbox Disabled */
+  .vehicle-style-card {
+    .mat-checkbox-disabled {
+      .mat-checkbox-layout {
+        .mat-checkbox-frame {
+          border-color: #626b82;
+        }
+        .mat-checkbox-label {
+          color: #626b82;
+        }
+      }
+    }
+  }
+
+  .vehicle-define-types {
+    ul {
+      li {
+        .mat-checkbox {
+          .mat-checkbox-inner-container {
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  /* Input Field */
+  .mat-input-container {
+    .mat-form-field-infix {
+      width: 120px;
+    }
+    input.mat-input-element {
+      color: $darkblue;
+      .mat-form-field-placeholder {
+        color: rgb(158, 168, 193);
+      }
+    }
+    .mat-form-field-underline {
+      background-color: rgba($dodgerblue, 0.42);
+      .mat-form-field-ripple {
+        background-color: $darkblue;
+      }
+    }
+  }
+  /* Select drop-down */
+  .mat-form-field.mat-focused.mat-primary {
+    .mat-select-arrow {
+      color: $darkblue;
+    }
+    .mat-form-field-placeholder {
+      color: $darkblue;
+    }
+  }
+
+  /* Quick Links */
+  .quick-links-block {
+    width: 25%;
+    float: left;
+    @include mobile {
+      width: 100%;
+      margin-top: 2%;
+    }
+    .payment-estimator {
+      .mat-expansion-panel-body {
+        height: auto;
+      }
+    }
+    .mat-expansion-panel-body {
+      height: 175px;
+      overflow-x: auto;
+      .mat-nav-list {
+        .mat-list-item {
+          height: auto;
+          padding: 8px 0;
+          border-bottom: 1px solid rgba($dodgerblue, 0.50);
+          .mat-list-item-content {
+            padding: 0;
+            a {
+              text-decoration: none;
+              color: $blue-2;
+              &:hover {
+                color: $darkblue;
+              }
+              i {
+                display: table-cell;
+                padding-right: 10px;
+                vertical-align: middle;
+              }
+              span {
+                display: table-cell;
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
+    }
+    .mat-action-row {
+      padding: 5px 8px;
+      .mat-icon {
+        color: $blue-2 !important;
+      }
+    }
+  }
+
+  .mat-paginator {
+    mat-select {
+      .mat-select-value {
+        color: $white;
+      }
+      .mat-select-arrow {
+        color: $white;
+      }
+    }
+    .mat-paginator-decrement {
+      border-top: 2px solid $white;
+      border-right: 2px solid $white;
+    }
+  }
+
+  /* Quick Locate */
+  .quick-locate {
+    width: 21%;
+    float: left;
+    margin-right: 2%;
+    .mat-radio-button {
+      &.mat-accent {
+        .mat-radio-inner-circle {
+          background: $blue-2;
+        }
+        &.mat-radio-checked {
+          .mat-radio-outer-circle {
+            border-color: $blue-2;
+          }
+        }
+        .mat-radio-label-content {
+          color: $blue-2;
+          font-weight: 400;
+          font-family: 'Roboto';
+        }
+      }
+    }
+    .mat-action-row {
+      padding: 16px 0px 0px 0px;
+    }
+  }
+
+  /* slider */
+  .mat-accent {
+    .mat-slider-thumb {
+      background-color: $darkblue;
+    }
+    .mat-slider-track-fill {
+      @extend .mat-slider-thumb;
+    }
+  }
+
+  /**/
+  .vehicle-define-detail {
+    .mat-selection-list {
+      .mat-list-text {
+        font-size: $font-sm;
+        color: $dimgray;
+      }
+      .mat-list-item-content {
+        flex-direction: inherit;
+      }
+    }
+    li {
+      .mat-checkbox-label {
+        font-size: $font-sm;
+        color: $dimgray;
+        white-space: normal;
+      }
+    }
+  }
+
+  /**/
+  .mat-primary {
+    .mat-option.mat-selected {
+      &:not(.mat-option-disabled) {
+        color: $darkblue;
+      }
+    }
+  }
+
+  /* select option tab */
+  .select-option-tab {
+    width: 48%;
+    float: right;
+    margin-top: 2%;
+    @include tablet {
+      width: 100%;
+    }
+    @include mobile {
+      width: 100%;
+    }
+    .mat-expansion-panel-body {
+      margin-top: 20px;
+      .example-container {
+        box-shadow: none;
+        .mat-tab-body-wrapper {
+          min-height: 250px;
+          max-height: 250px;
+        }
+      }
+      .mat-tab-group {
+        .mat-tab-header {
+          margin-bottom: 15px;
+          .mat-tab-label-container {
+            .mat-tab-list {
+              .mat-tab-label {
+                text-transform: capitalize;
+                color: $darkblue;
+                min-width: 100px;
+                padding: 0px !important;
+                &.mat-tab-label-active {
+                  background-color: rgba(19, 67, 115, 0.1);
+                  opacity: 1;
+                }
+              }
+              .mat-ink-bar {
+                background-color: $darkblue;
+                width: 100px;
+              }
+            }
+          }
+        }
+        .mat-tab-body-wrapper {
+          .mat-tab-body {
+            .mat-tab-body-content {
+              .mat-checkbox-checked {
+                &.dont-want-icon {
+                  .mat-checkbox-background {
+                    background-color: #ff0808;
+                    &:before {
+                      width: 16px;
+                      height: 16px;
+                      display: inline-block;
+                      content: "";
+                      position: absolute;
+                      left: 2px;
+                      top: 2px;
+                      background: #ffffff url("assets/images/close-icon.png") no-repeat center center;
+                      background-size: 12px;
+                      z-index: 9;
+                      border-radius: 2px;
+                    }
+                  }
+                }
+                &.want-icon {
+                  .mat-checkbox-background {
+                    background-color: #088408;
+                    &:before {
+                      width: 16px;
+                      height: 16px;
+                      display: inline-block;
+                      content: "";
+                      position: absolute;
+                      left: 2px;
+                      top: 2px;
+                      background: #ffffff url("assets/images/check-icon.png") no-repeat center center;
+                      z-index: 9;
+                      border-radius: 2px;
+                    }
+                  }
+                }
+              }
+              li {
+                padding: 10px 0;
+                color: $dimgray;
+                .mat-checkbox-checked {
+                  &.dont-want-icon {
+                    .mat-checkbox-background {
+                      background-color: #ff0808;
+                      &:before {
+                        width: 16px;
+                        height: 16px;
+                        display: inline-block;
+                        content: "";
+                        position: absolute;
+                        left: 2px;
+                        top: 2px;
+                        background: #ffffff url("assets/images/close-icon.png") no-repeat center center;
+                        background-size: 12px;
+                        z-index: 9;
+                        border-radius: 2px;
+                      }
+                    }
+                  }
+                  &.want-icon {
+                    .mat-checkbox-background {
+                      background-color: #088408;
+                      &:before {
+                        width: 16px;
+                        height: 16px;
+                        display: inline-block;
+                        content: "";
+                        position: absolute;
+                        left: 2px;
+                        top: 2px;
+                        background: #ffffff url("assets/images/check-icon.png") no-repeat center center;
+                        z-index: 9;
+                        border-radius: 2px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .select-want-btn {
+        .mat-action-row {
+          padding: 16px 0;
+          .want-dont-btn {
+            float: left;
+            width: 100%;
+            button {
+              width: auto;
+            }
+          }
+        }
+      }
+      .want-dont-btn {
+        button {
+          min-width: 21%;
+          width: auto;
+        }
+      }
+    }
+  }
+
+  /* Additional Criteria */
+  .additional-criteria {
+    float: left;
+    width: 100%;
+    margin-top: 2%;
+    mat-checkbox {
+      .mat-checkbox-label {
+        color: $dimgray;
+      }
+    }
+    mat-radio-button {
+      .mat-radio-label-content {
+        @extend .mat-checkbox-label;
+      }
+    }
+  }
+  /* State List Max */
+  .state-list-max {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    .ui-picklist {
+      .ui-picklist-listwrapper {
+        .ui-picklist-caption {
+          color: $white;
+          background: $dodgerblue;
+          font-size: $font-sm;
+          padding: 12px;
+        }
+        .ui-widget-content {
+          .ui-picklist-item {
+            padding: 10px;
+            border-bottom: 1px solid $lightsteelblue;
+            margin: 0;
+            color: $dodgerblue;
+          }
+        }
+      }
+      .ui-picklist-buttons {
+        .ui-picklist-buttons-cell {
+          button {
+            background: $dodgerblue;
+            border-color: $dodgerblue;
+            &[icon="fa-angle-right"] {
+              .ui-button-text {
+                background: url("assets/images/angle-right.png") no-repeat center center;
+              }
+            }
+            &[icon="fa-angle-double-right"] {
+              .ui-button-text {
+                background: url("assets/images/angle-double-right.png") no-repeat center center;
+              }
+            }
+            &[icon="fa-angle-left"] {
+              .ui-button-text {
+                background: url("assets/images/angle-left.png") no-repeat center center;
+              }
+            }
+            &[icon="fa-angle-double-left"] {
+              .ui-button-text {
+                background: url("assets/images/angle-double-left.png") no-repeat center center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Popup */
+  .cdk-overlay-pane {
+    .mat-dialog-container {
+      max-height: 100vh;
+    }
+  }
+  /* Table Scrolling  */
+  .table-scrolling {
+    overflow: auto;
+    background: $white;
+  }
+  /* Search Location Results */
+  .search-location-results {
+    .mat-paginator {
+      .mat-paginator-decrement {
+        border-top: 2px solid $darkblue;
+        border-right: 2px solid $darkblue;
+      }
+    }
+  }
+  /* VIN Detail Payment */
+  .vin-detail-payment {
+    .quick-links-block {
+      .quick-block {
+        .mat-form-field {
+          width: 100%;
+        }
+        .mat-list-item {
+          height: auto;
+          padding: 8px 0;
+          border-bottom: 1px solid rgba(158, 168, 193, 0.5);
+          .mat-list-item-content {
+            a {
+              text-decoration: none;
+              color: #226d9a;
+              i {
+                display: table-cell;
+                padding-right: 10px;
+                vertical-align: middle;
+              }
+              span {
+                display: table-cell;
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
+    }
+    .vin-specifications {
+      .vin-specifi-detail {
+        float: left;
+        .mat-expansion-panel {
+          float: left;
+          width: 100%;
+          .mat-expansion-panel-body {
+            .mat-list-item {
+              width: 49%;
+              height: auto;
+              margin-bottom: 10px;
+              display: inline-block;
+              &.sub-title {
+                width: 96%;
+                .mat-list-item-content {
+                  color: #ffffff;
+                  font-size: 18px;
+                  @extend .font-roboto-regular;
+                }
+              }
+              .mat-list-item-content {
+                color: $dimgray;
+                font-size: $font-sm;
+                @extend .font-roboto-regular;
+                strong {
+                  font-size: $font-sm;
+                  color: $darkblue;
+                  @extend .font-roboto-regular;
+                  margin-right: 10px;
+                }
+                span {
+                  color: $dimgray;
+                  font-size: $font-sm;
+                  @extend .font-roboto-regular;
+                }
+              }
+            }
+            table {
+              td {
+                strong {
+                  font-size: $font-sm;
+                  color: $darkblue;
+                  @extend .font-roboto-regular;
+                  margin-right: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .vin-vehicle-options {
+        .mat-expansion-panel-content {
+          .mat-tab-group {
+            .mat-tab-header {
+              .mat-tab-label-container {
+                .mat-tab-list {
+                  .mat-tab-label {
+                    text-transform: capitalize;
+                    color: $darkblue;
+                    &.mat-tab-label-active {
+                      background-color: rgba(19, 67, 115, 0.1);
+                      opacity: 1;
+                    }
+                  }
+                  .mat-ink-bar {
+                    background-color: $darkblue;
+                  }
+                }
+              }
+            }
+            .mat-tab-body-wrapper {
+              height: 200px;
+            }
+          }
+        }
+      }
+      .vin-incomplete {
+        .mat-expansion-panel-content {
+          .mat-table {
+            margin-top: 10px;
+            width: 800px;
+            .mat-header-row {
+              background: $dodgerblue;
+              .mat-header-cell {
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .quick-links-block {
+    .mat-expansion-panel-body {
+      .mat-list-item {
+        &:hover {
+          background: #eee;
+        }
+        a {
+          &:hover {
+            color: $darkblue;
+          }
+        }
+      }
+    }
+  }
+  /* VIN Display Footer */
+  .vin-display-footer {
+    .vin-display-info {
+      .mat-checkbox-layout {
+        .mat-checkbox-label {
+          color: $darkblue;
+        }
+      }
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+
+  }
+
+  /**/
+  .dealer-owning-table {
+    overflow: auto;
+    .mat-table {
+      width: 1080px;
+      .mat-header-row {
+        background: $dodgerblue;
+        padding: 0;
+        display: table;
+        width: 100%;
+        .mat-header-cell {
+          color: $white;
+          font-family: 'Roboto';
+          font-weight: 400;
+          font-size: $font-sm;
+          padding: 8px;
+          word-break: break-word;
+          display: table-cell;
+          vertical-align: middle;
+          border-left: 1px solid #7c8aab;
+          border-bottom: 1px solid #7c8aab;
+        }
+      }
+      .mat-row {
+        padding: 0;
+        min-height: auto;
+        .mat-cell {
+          color: $dimgray;
+          font-family: 'Roboto';
+          font-weight: 400;
+          font-size: $font-sm;
+          padding: 8px;
+          word-break: break-word;
+          display: table-cell;
+          vertical-align: middle;
+          border-left: 1px solid #7c8aab;
+          border-bottom: 1px solid #7c8aab;
+        }
+      }
+    }
+  }
+  .locate-vehicle-loader {
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    position: fixed;
+    height: 100%;
+    z-index: 9;
+    background: rgba(230, 235, 247, 0.7);
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .vin-disclaimer-wrp {
+    span {
+      font-size: 16px;
+      color: $darkblue;
+      font-family: 'Roboto';
+      font-weight: 400;
+    }
+    .vin-disclaimer-text {
+      padding: 10px;
+      background: $dodgerblue;
+      p {
+        color: $white;
+        font-size: $font-sm;
+        font-family: 'Roboto';
+        font-weight: 400;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .green-text {
+    color: green
+  }
+
+  .red-text {
+    color: red
+  }
+
+  .no-display {
+    display: none;
+  }
+
+  .vin-indicator {
+    padding: 10px 0;
+    font-family: 'Roboto';
+    font-weight: 400;
+  }
+
+  .list-item-link {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,34 @@
+<div *ngFor='let key of objectKeys(data.selectOptions)' class="select-summary-popup">
+  <div class="summary-left" *ngIf="data.selectOptions[key].totalWant || data.selectOptions[key].totalDoNot">
+    {{ key }}
+  </div>
+  <div class="summary-modal">
+    <ul>
+      <li *ngFor="let name of data.selectOptions[key].data">
+        <span *ngIf="name.want">
+          <mat-icon aria-label="Add" class="green-text">done</mat-icon>
+          {{ name.OptionID }} - {{ name.OptionName }}
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="summary-right">
+    <ul>
+      <li *ngFor="let name of data.selectOptions[key].data">
+        <span *ngIf="name.doNot">
+          <mat-icon aria-label="Add" class="red-text">close</mat-icon>
+          {{ name.OptionID }} - {{ name.OptionName }}
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="cu-btn">
+  <div class="primary-btn">
+    <button mat-raised-button color="basic" (click)="closeModal()">
+      Close
+    </button>
+  </div>
+</div>
+

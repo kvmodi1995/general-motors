@@ -1,0 +1,48 @@
+@import "../../../assets/styles/scss/index";
+
+.select-summary-popup {
+  .summary-left {
+    float: left;
+    width: 96%;
+    text-transform: capitalize;
+    padding: 2%;
+    background: $dodgerblue;
+    color: $white;
+    margin-bottom: 10px;
+    @extend .font-roboto-regular;
+  }
+  .summary-modal {
+    float: left;
+    width: 49%;
+    span {
+      color: $dimgray;
+      font-size: $font-sm;
+      padding: 5px 0;
+      display: block;
+      @extend .font-roboto-regular;
+      mat-icon {
+        vertical-align: middle;
+      }
+    }
+  }
+  .summary-right {
+    float: right;
+    width: 49%;
+    span {
+      color: $dimgray;
+      font-size: $font-sm;
+      padding: 5px 0;
+      display: block;
+      @extend .font-roboto-regular;
+      mat-icon {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.cu-btn {
+  float: left;
+  width: 100%;
+  text-align: right;
+}

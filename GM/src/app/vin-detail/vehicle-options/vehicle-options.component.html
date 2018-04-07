@@ -1,0 +1,94 @@
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header class="heading-dropdown-title">
+    <mat-panel-title>
+      Vehicle Options
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-tab-group>
+    <mat-tab label="All Options">
+      <div *ngIf="data.All;else otherOptions">
+        <table id="all-options">
+          <tr class="no-display">
+            <td>
+              All Options
+            </td>
+          </tr>
+          <tr *ngFor="let option of data['All']">
+            <td>{{ option.OptionCode }}: {{ option.OptionDescription }}</td>
+          </tr>
+        </table>
+      </div>
+      <ng-template #otherOptions>
+        <div class="vehicle-chargeable" *ngIf="data['Chargable Options']">
+          <p>Chargeable Options</p>
+          <div *ngIf="data['Chargable Options'] then chargeable"></div>
+        </div>
+        <div class="vehicle-chargeable" *ngIf="data['No Costed Options']">
+          <p>No Cost Option</p>
+          <div *ngIf="data['No Costed Options'] then noCost"></div>
+        </div>
+        <div class="vehicle-chargeable" *ngIf="data['Other Options']">
+          <p>Other Option</p>
+          <div *ngIf="data['Other Options'] then other"></div>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Chargeable Options" *ngIf="!data['All']" [disabled]="!data['Chargable Options']">
+      <div *ngIf="data['Chargable Options'] then chargeable"></div>
+    </mat-tab>
+    <mat-tab label="No Cost Options" *ngIf="!data['All']" [disabled]="!data['No Costed Options']">
+      <div *ngIf="data['No Costed Options'] then noCost"></div>
+    </mat-tab>
+    <mat-tab label="Other Options" *ngIf="!data['All']" [disabled]="!data['Other Options']">
+      <div *ngIf="data['Other Options'] then other"></div>
+    </mat-tab>
+  </mat-tab-group>
+
+</mat-expansion-panel>
+
+<ng-template #chargeable>
+  <div class="vehicle-chargeable">
+    <table id="chargeable-options">
+      <tr>
+        <td></td>
+        <td> MSRP </td>
+        <td *ngIf="view === 'dealer'"> Invoice </td>
+      </tr>
+      <tr *ngFor="let option of data['Chargable Options']">
+        <td> {{ option.OptionCode }}: {{ option.OptionDescription }} </td>
+        <td> {{ option.MSRP.Value | customCurrency }} </td>
+        <td *ngIf="view === 'dealer'"> {{ option.invoice.Value | customCurrency }} </td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #noCost>
+  <div class="vehicle-chargeable">
+    <table id="no-cost-options">
+      <tr class="no-display">
+        <td>
+          No Cost Options
+        </td>
+      </tr>
+      <tr *ngFor="let option of data['No Costed Options']">
+        <td>{{ option.OptionCode }}: {{ option.OptionDescription }}</td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #other>
+  <div class="vehicle-chargeable">
+    <table id="other-options">
+      <tr class="no-display">
+        <td>
+          Other Options
+        </td>
+      </tr>
+      <tr *ngFor="let option of data['Other Options']">
+        <td>{{ option.OptionCode }}: {{ option.OptionDescription }}</td>
+      </tr>
+    </table>
+  </div>
+</ng-template>

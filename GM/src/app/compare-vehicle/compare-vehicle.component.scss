@@ -1,0 +1,107 @@
+@import "../../assets/styles/scss/index";
+
+.compare-select {
+  text-align: right;
+}
+
+.side-comparision {
+  .full-comparision-table {
+    .side-comparision-table {
+      table {
+        th {
+          width: 20%;
+        }
+      }
+    }
+    .side-comparision-options {
+      table {
+        td {
+          width: 20%;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+  .side-comparision-table {
+    table {
+      width: 100%;
+      border-spacing: 0;
+      thead {
+        background: $dodgerblue;
+        th {
+          color: $white;
+          @extend .font-roboto-regular;
+          font-size: $font-sm;
+          padding: 10px;
+          border-left: 1px solid #8992a7;
+          border-bottom: 1px solid #8992a7;
+          width: 33.33%;
+          &:last-child {
+            border-right: 1px solid #8992a7;
+          }
+        }
+      }
+      tbody {
+        td {
+          color: $dimgray;
+          @extend .font-roboto-regular;
+          font-size: $font-sm;
+          padding: 10px;
+          border-left: 1px solid #8992a7;
+          border-bottom: 1px solid #8992a7;
+          &:last-child {
+            border-right: 1px solid #8992a7;
+          }
+          span {
+            color: $darkblue;
+            @extend .font-roboto-medium;
+            padding: 7px 0;
+          }
+          a {
+            color: $darkblue;
+          }
+        }
+      }
+    }
+  }
+  .side-comparision-options {
+    margin: 10px 0;
+    table {
+      width: 100%;
+      border-spacing: 0;
+      border-width: 1px 1px 0 1px;
+      border-style: solid;
+      border-color: #8992a7;
+      tr {
+        &:hover {
+          background: $lightsteelblue;
+        }
+        td {
+          width: 33.33%;
+          color: $dimgray;
+          @extend .font-roboto-regular;
+          font-size: $font-sm;
+          padding: 10px;
+          border-left: 1px solid #8992a7;
+          border-bottom: 1px solid #8992a7;
+          &:first-child {
+            border-left: 0 none;
+          }
+          i {
+            margin: 0 auto;
+            display: block;
+            text-align: center;
+            &.close-icon-check {
+              color: #60b524;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .btn {
+    float: left;
+    margin-right: 10px;
+  }
+}

@@ -1,0 +1,356 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif" />
+</div>
+
+<div [hidden]="result">
+  <form [formGroup]="searchVehicle" #searchVehicleForm="ngForm">
+    <div class="locate-vehicle">
+      <div class="locate-vehicle-form">
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header class="heading-dropdown-title">
+            <mat-panel-title>
+              Locate By Vehicle
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="vehicle-year-model" formGroupName="yearMakeModel">
+            <mat-form-field>
+              <mat-select placeholder="Year" formControlName="year" required (change)="onYearChange($event)"
+                          [(ngModel)]="selectedYear">
+                <mat-option *ngFor="let yearName of years" [value]="yearName.Year">
+                  {{ yearName.Year }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="(searchVehicleForm.submitted || searchVehicle.controls['yearMakeModel']['controls']['year'].touched) && searchVehicle.controls['yearMakeModel']['controls']['year'].hasError('required')">
+                Select Year
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Make" formControlName="make" required (change)="onMakeChange($event)"
+                          [(ngModel)]="selectedMake">
+                <mat-option *ngFor="let make of makes" [value]="make">
+                  {{ make.Description }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="(searchVehicleForm.submitted || searchVehicle.controls['yearMakeModel']['controls']['make'].touched) && searchVehicle.controls['yearMakeModel']['controls']['make'].hasError('required')">
+                Select Make
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Model" formControlName="model" required (change)="onModelChange($event)"
+                          [(ngModel)]="selectedModel">
+                <mat-option *ngFor="let modelName of models" [value]="modelName">
+                  {{ modelName }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="(searchVehicleForm.submitted || searchVehicle.controls['yearMakeModel']['controls']['model'].touched) && searchVehicle.controls['yearMakeModel']['controls']['model'].hasError('required')">
+                Select Model
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="vehicle-body-style">
+            <div class="vehicle-style-card">
+              <p>
+                Body Style:
+                <span class="mat-error-red">*</span>
+              </p>
+              <div *ngIf="selectBodyError" class="mat-error">
+                Select Body Style
+              </div>
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-checkbox [checked]="allSelected"
+                                (change)="selectAll($event)" [disabled]="!searchVehicleForm.value.yearMakeModel.model">
+                    Select All
+                  </mat-checkbox>
+                </mat-card-header>
+                <mat-card-content>
+                  <div *ngIf="searchVehicleForm.value.yearMakeModel.model">
+                    <mat-checkbox
+                      *ngFor="let style of bodyStyles[searchVehicleForm.value.yearMakeModel.model]; let $index = index"
+                      [checked]="allSelected || checkedValue[$index]"
+                      (change)="bodyStyleSelected($event, $index)" [value]="style">
+                      {{ style.style }}
+                    </mat-checkbox>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="vehicle-style-selected">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  Selected
+                </mat-card-header>
+                <mat-card-content [ngClass]="{'mat-error-border': selectBodyError}">
+                  <ul>
+                    <li *ngFor="let style of selectedBodyStyle">
+                      {{ style.style }}
+                    </li>
+                  </ul>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+          <div class="vehicle-msrp">
+            <div class="vehicle-records">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Max MSRP" [(ngModel)]="maxMSRP" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <!--<mat-slider
+                class="example-margin"
+                [max]="150000"
+                [min]="0"
+                [step]="1"
+                [(ngModel)]="maxMSRP" [ngModelOptions]="{standalone: true}">
+              </mat-slider>-->
+            </div>
+            <div class="vehicle-records pl-2 pr-2 ">
+              <mat-form-field>
+                <mat-select placeholder="Earliest Event Code" [(ngModel)]="eventCode"
+                            [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let event of earliestEventCode" [value]="event">
+                    {{ event.code }} - {{ event.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="vehicle-records">
+              <mat-form-field>
+                <mat-select placeholder="Max Records" [(value)]="maxRecord">
+                  <mat-option *ngFor="let record of recordPerPageArray" [value]="record">
+                    {{ record }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="vehicle-define-types">
+            <div class="vehicle-define-detail">
+              <p>Define vehicle types to search for</p>
+              <section>
+                <ul>
+                  <li *ngFor="let option of vehicleSearchType;">
+                    <mat-checkbox [value]="option.value" [(ngModel)]="option.checked"
+                                  [ngModelOptions]="{standalone: true}">
+                      {{ option.value }}
+                    </mat-checkbox>
+                  </li>
+                </ul>
+              </section>
+            </div>
+            <div class="cu-btn">
+              <div class="primary-btn">
+                <mat-action-row>
+                  <button mat-raised-button color="primary" type="submit"
+                          (click)="getData($event, searchVehicleForm)">
+                    Locate
+                  </button>
+                </mat-action-row>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="quick-locate">
+        <general-motor-quick-locate [clearData]="clearData"
+                                    (quickLocateError)="displayQuickLocateError($event)"></general-motor-quick-locate>
+      </div>
+
+      <!--<div class="quick-links-block">
+        <general-motor-quick-links></general-motor-quick-links>
+      </div>-->
+
+    </div>
+    <div class="select-option-tab">
+      <general-motor-select-option [modelOptionGroup]="modelOptionGroups"
+                                   [showOptions]="showSelectionOption"
+                                   (getSelectedOptions)="getOptions($event)"></general-motor-select-option>
+    </div>
+    <div class="additional-criteria">
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header class="heading-dropdown-title">
+          <mat-panel-title>
+            Additional Criteria
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="additional-locations">
+          <div class="text-info-gray">
+            Define locations to search for in addition to My Inventory:
+          </div>
+          <div class="exclude-form">
+            <div formGroupName="excludeBAC">
+              <div *ngIf="invalidExcludeBAC && searchVehicleForm.submitted" class="mat-error-red">
+                Please enter at least one BAC.
+              </div>
+              <mat-checkbox formControlName="value" (change)="checkValue($event)" id="excludeBACs">Exclude BAC:</mat-checkbox>
+              <mat-form-field
+                *ngFor="let bac of searchVehicle.controls['excludeBAC']['controls']['bacs'].controls; let $index = index"
+                formArrayName="bacs">
+                <input matInput [formControlName]="$index" (keypress)="checkNumber($event)" minlength="6"
+                       maxlength="6" (paste)="checkNumber($event)">
+                <span class="mat-error-span"
+                      *ngIf="searchVehicle.controls['excludeBAC']['controls']['value'].value &&
+                             searchVehicle.controls['excludeBAC']['controls']['bacs']['controls'][$index].touched &&
+                             searchVehicle.controls['excludeBAC']['controls']['bacs']['controls'][$index].value?.length > 0 &&
+                             searchVehicle.controls['excludeBAC']['controls']['bacs']['controls'][$index].value?.length < 6">
+                  Enter valid BAC.
+                </span>
+              </mat-form-field>
+              <!--<button mat-icon-button (click)="openSearchByLocation()" type="button">
+                <mat-icon>people</mat-icon>
+              </button>-->
+            </div>
+            <div formGroupName="selectedOption">
+              <mat-radio-group formControlName="value" (change)="changeRadio($event)">
+                <mat-radio-button value="My Trading Partner" (click)="showAlert($event,'My Trading Partner')">
+                  Search By My Trading
+                  Partners
+                </mat-radio-button>
+                <div class="city" formGroupName="City">
+                  <mat-radio-button value="City">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput placeholder="City" formControlName="city">
+                    <mat-error
+                      *ngIf="searchVehicle.controls['selectedOption']['controls']['City'].controls['city'].hasError('required')">
+                      Enter valid City.
+                    </mat-error>
+                  </mat-form-field>
+                  & State
+                  <mat-form-field>
+                    <mat-select placeholder="State" formControlName="state">
+                      <mat-option *ngFor="let state of states" [value]="state">
+                        {{ state.abbr }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="searchVehicle.controls['selectedOption']['controls']['City'].controls['state'].hasError('required')">
+                      Select State
+                    </mat-error>
+                  </mat-form-field>
+                  within (mile radius):
+                  <mat-form-field>
+                    <input matInput placeholder="Radius" #radius type="text" formControlName="radius" maxlength="4"
+                           (keypress)="checkNumber($event)" (paste)="checkNumber($event)">
+                    <mat-error *ngIf="searchVehicle.controls['selectedOption']['controls']['City'].controls['radius'].hasError('required')">
+                      Please enter valid Radius.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="zipCode" formGroupName="Zip Code">
+                  <mat-radio-button value="Zip Code">
+                    Search by
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput formControlName="code" placeholder="Zip Code" #zipCode name="code" maxlength="5"
+                           minlength="5"
+                           (keypress)="checkNumber($event)" (paste)="checkNumber($event)">
+                    <mat-error
+                      *ngIf="searchVehicle.controls['selectedOption']['controls']['Zip Code'].controls['code'].touched
+                       && searchVehicle.controls['selectedOption']['controls']['Zip Code'].value.code.length !== 5">
+                      Enter valid zip code
+                    </mat-error>
+                  </mat-form-field>
+                  within (Mile Radius):
+                  <mat-form-field>
+                    <input matInput formControlName="radius" placeholder="Radius" #radius type="text" maxlength="4"
+                           (keypress)="checkNumber($event)" (paste)="checkNumber($event)">
+                    <mat-error
+                          *ngIf="searchVehicle.controls['selectedOption']['controls']['Zip Code']['controls']['radius'].hasError('required')">
+                      Please enter valid radius
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="bacRadius">
+                  <mat-radio-button value="bacRadius">
+                    Search by My BAC within (Mile Radius):
+                  </mat-radio-button>
+                  <mat-form-field>
+                    <input matInput placeholder="Radius" #radius type="text" formControlName="bacRadius" maxlength="4"
+                           (keypress)="checkNumber($event)" (paste)="checkNumber($event)">
+                    <mat-error *ngIf="searchVehicle.controls['selectedOption']['controls']['bacRadius'].hasError('required')">
+                      Please enter valid radius
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="bac" formGroupName="BAC">
+                  <mat-radio-button value="BAC" (click)="showAlert($event, 'BAC')">
+                    Search by Other BAC
+                  </mat-radio-button>
+                  <mat-form-field
+                    *ngFor="let bac of searchVehicle.controls['selectedOption']['controls']['BAC'].controls['number']['controls']; let $index = index"
+                    formArrayName="number">
+                    <input matInput [formControlName]="$index" (keypress)="checkNumber($event)" minlength="6"
+                           maxlength="6" (paste)="checkNumber($event)">
+                    <span class="mat-error-span"
+                          *ngIf="searchVehicle.controls['selectedOption']['controls']['BAC'].controls['number']['controls'][$index].touched
+                                 && searchVehicle.controls['selectedOption']['controls']['BAC'].controls['number']['controls'][$index].value?.length < 6">
+                      Enter valid BAC.
+                    </span>
+                  </mat-form-field>
+                  <!--<button mat-icon-button (click)="openSearchByLocation()" type="button">
+                    <mat-icon>people</mat-icon>
+                  </button>-->
+                </div>
+                <div class="state">
+                  <mat-radio-button value="state">
+                    Search by State
+                  </mat-radio-button>
+                  <div class="mat-error-red ">
+                    <span *ngIf="searchVehicle.value.selectedOption.value === 'state' && selectStateError">
+                    Select states....
+                  </span>
+                  </div>
+                  <div class="state-list-max">
+                    <p-pickList [source]="sourceStates"
+                                [target]="targetStates"
+                                [sourceHeader]="'State List'"
+                                [targetHeader]="'Selected States (Max 5)'"
+                                [sourceStyle]="{'height':'300px'}"
+                                [targetStyle]="{'height':'300px'}"
+                                [showTargetControls]="false"
+                                [showSourceControls]="false"
+                                [responsive]="true"
+                                (onMoveToTarget)="moveToTarget($event)"
+                                (onMoveToSource)="moveToSource($event)">
+                      <ng-template let-state pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                          <div>{{ state.name }}</div>
+                        </div>
+                      </ng-template>
+                    </p-pickList>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="cu-btn">
+          <div class="primary-btn">
+            <mat-action-row>
+              <!--<button mat-raised-button color="primary" type="submit">Save</button>-->
+              <button mat-raised-button color="primary" (click)="onClearData($event)" type="button">Clear</button>
+              <!--<button mat-raised-button color="primary" type="reset">Reset</button>-->
+              <button mat-raised-button color="primary" type="submit" (click)="getData($event, searchVehicle)">
+                Locate
+              </button>
+            </mat-action-row>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="result">
+  <general-motor-search-vehicle-result [data]="searchedData"
+                                       [additionalData]="additionalData"
+                                       [errorMessage]="errorMessage"
+                                       [searchCriteria]="searchCriteria"
+                                       [selectedSearch]="selectedSearch"
+                                       (editSearch)="editSearchCriteria()"></general-motor-search-vehicle-result>
+</div>

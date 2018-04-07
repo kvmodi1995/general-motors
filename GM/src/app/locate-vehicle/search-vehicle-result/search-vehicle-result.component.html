@@ -1,0 +1,326 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif"/>
+</div>
+<div *ngIf="addedToPartnerError" class="mat-error-div">
+  You cannot add your dealership as a Trading Partner. Please de-select your dealership and try again.
+</div>
+<div *ngIf="addedToPartner" class="mat-error-div">
+  The selected dealer(s) have been added to your Trading Partners.
+</div>
+<div *ngIf="compareError" class="mat-error-div">
+  Please select 2, 3, or 4 vehicles to compare at one time
+</div>
+<div *ngIf="reportError" class="mat-error-div">
+  Please select at least 1 vehicle in order to View Reports
+</div>
+<div class="criteria">
+  <div class="search-location-block">
+    <general-motor-search-criteria [selectedSearch]="selectedSearch"
+                                   [searchCriteria]="searchCriteria"
+                                   [searchCriteriaName]="'vehicle'"
+                                   (editSearchClicked)="editSearchClick()"></general-motor-search-criteria>
+  </div>
+
+  <div class="quick-links-block">
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="Select View" [(ngModel)]="selectedView">
+          <mat-option *ngFor="let viewName of views" [value]="viewName">
+            {{ viewName }} View
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <!--<general-motor-quick-links></general-motor-quick-links>-->
+  </div>
+</div>
+<div class="inventory-bac">
+  <div class="search-location-results">
+    <div *ngIf="errorMessage[0]" class="mat-error-div">
+      {{ errorMessage[0] }}
+    </div>
+    <div class="search-results-table example-container mat-elevation-z8">
+      <div class="sub-title">My Inventory</div>
+      <div class="table-scrolling">
+        <mat-table #inventoryTable [dataSource]="inventoryDataSource" matSort>
+          <!-- Select Checkbox Column -->
+          <ng-container matColumnDef="selected">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-checkbox [checked]="inventoryAllSelected"
+                            [disabled]="!data.length"
+                            (change)="selectAll($event, 'inventoryTable')">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element; let index = index">
+              <mat-checkbox [checked]="inventoryAllSelected || inventoryCheckedValue[index]"
+                            value='{{element | json}}'
+                            (change)="checkBoxChange($event, index ,'inventoryTable')">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+
+          <!-- VIN Column -->
+          <ng-container matColumnDef="VIN">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> VIN</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.VinNumber}}"
+                      (click)="showVinDetail(element)" class="vin-link">
+              {{ element.VIN }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- PEG Column -->
+          <ng-container matColumnDef="PEG">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> PEG</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      matTooltip="{{element.PEG?.OptionCode}} - {{element.PEG?.OptionDescription}}">
+              {{ element.PEG?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- color Column -->
+          <ng-container matColumnDef="color">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Color</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.primaryColor?.OptionDescription}}">
+              {{ element.primaryColor?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Trim Column -->
+          <ng-container matColumnDef="trim">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Trim</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.trim?.OptionDescription}}">
+              {{ element.trim?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Engine Column -->
+          <ng-container matColumnDef="engine">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Engine</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.engine?.OptionDescription}}">
+              {{ element.engine?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Trans Column -->
+          <ng-container matColumnDef="trans">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Trans</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.transmission?.OptionDescription}}">
+              {{ element.transmission?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Owning Dealer Column -->
+          <ng-container matColumnDef="owningDealer">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Owning Dealer</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      class="vin-link"
+                      matTooltip="{{element.Dealer.Name}}&#13;{{element.Dealer.DealerCode}}&#13;"
+                      [matTooltipClass]="'break-tooltip'"><a (click)="showOwningDealerDetail(element)">
+              {{ element.Dealer.VendorId }}</a></mat-cell>
+          </ng-container>
+
+          <!-- Event Code Column -->
+          <ng-container matColumnDef="eventCode">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Event Code</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      matTooltip="{{ element.Event[0].Description }}">
+              {{ element.Event[0].Id }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Stock Column -->
+          <ng-container matColumnDef="stock">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Stock #</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.StockNumber }}</mat-cell>
+          </ng-container>
+
+          <!-- Order Type Column -->
+          <ng-container matColumnDef="orderType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Order Type</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.OrderType }}</mat-cell>
+          </ng-container>
+
+          <!-- MSRP Column -->
+          <ng-container matColumnDef="MSRP">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> MSRP</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.MSRP.Value | customCurrency }}</mat-cell>
+          </ng-container>
+
+          <!-- otherInformation Column -->
+          <ng-container matColumnDef="otherInformation">
+            <mat-header-cell *matHeaderCellDef> Other Information</mat-header-cell>
+            <mat-cell class="other-infor-icon" *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="printInvoice(element)" matTooltip="Print Invoice">
+                <mat-icon>print</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="showIncentives(element)" matTooltip="Lookup Incentives by VIN">
+                <mat-icon>attach_money</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="showVinDetail(element)" matTooltip="VIN Details">
+                <mat-icon>note</mat-icon>
+              </button>
+              <!--<button mat-icon-button color="primary">
+                <mat-icon>vpn_key</mat-icon>
+              </button>-->
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-location-results">
+    <div *ngIf="errorMessage[1]" class="mat-error-div">
+      {{ errorMessage[1] }}
+    </div>
+    <div class="search-results-table example-container mat-elevation-z8">
+      <div class="sub-title">{{ additionalTitle }}</div>
+      <div class="table-scrolling">
+        <mat-table #additionalCriteriaTable [dataSource]="additionalDataSource" matSort>
+
+          <!-- Select Checkbox Column -->
+          <ng-container matColumnDef="selected">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-checkbox [checked]="additionalAllSelected"
+                            [disabled]="!additionalData.length"
+                            (change)="selectAll($event,'additionalCriteriaTable')">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element; let index = index">
+              <mat-checkbox [checked]="additionalAllSelected || additionalCheckedValue[index]"
+                            value='{{element | json}}'
+                            (change)="checkBoxChange($event, index, 'additionalCriteriaTable')">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+
+          <!-- VIN Column -->
+          <ng-container matColumnDef="VIN">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> VIN</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      class="vin-link"
+                      matTooltip="{{element.VinNumber}}"
+                      (click)="showVinDetail(element)">
+              {{ element.VIN }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- PEG Column -->
+          <ng-container matColumnDef="PEG">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> PEG</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      matTooltip="{{element.PEG?.OptionCode}} - {{element.PEG?.OptionDescription}}">
+              {{ element.PEG?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- color Column -->
+          <ng-container matColumnDef="color">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Color</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.primaryColor?.OptionDescription}}">
+              {{ element.primaryColor?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Trim Column -->
+          <ng-container matColumnDef="trim">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Trim</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.trim?.OptionDescription}}">
+              {{ element.trim?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Engine Column -->
+          <ng-container matColumnDef="engine">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Engine</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.engine?.OptionDescription}}">
+              {{ element.engine?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Trans Column -->
+          <ng-container matColumnDef="trans">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Trans</mat-header-cell>
+            <mat-cell *matCellDef="let element" matTooltip="{{element.transmission?.OptionDescription}}">
+              {{ element.transmission?.OptionCode }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Owning Dealer Column -->
+          <ng-container matColumnDef="owningDealer">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Owning Dealer</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      class="vin-link"
+                      matTooltip="{{element.Dealer.Name}}&#13;{{element.Dealer.DealerCode}}&#13;"
+                      [matTooltipClass]="'break-tooltip'"><a (click)="showOwningDealerDetail(element)">
+              {{ element.Dealer.VendorId }} </a></mat-cell>
+          </ng-container>
+
+          <!-- Event Code Column -->
+          <ng-container matColumnDef="eventCode">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Event Code</mat-header-cell>
+            <mat-cell *matCellDef="let element"
+                      matTooltip="{{ element.Event[0].Description }}">
+              {{ element.Event[0].Id }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Stock Column -->
+          <ng-container matColumnDef="stock">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Stock</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.StockNumber }}</mat-cell>
+          </ng-container>
+
+          <!-- Order Type Column -->
+          <ng-container matColumnDef="orderType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Order Type</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.OrderType }}</mat-cell>
+          </ng-container>
+
+          <!-- MSRP Column -->
+          <ng-container matColumnDef="MSRP">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> MSRP</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.MSRP.Value | customCurrency }}</mat-cell>
+          </ng-container>
+
+          <!-- otherInformation Column -->
+          <ng-container matColumnDef="otherInformation">
+            <mat-header-cell *matHeaderCellDef> Other Information</mat-header-cell>
+            <mat-cell class="other-infor-icon" *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="printInvoice(element)" matTooltip="Print Invoice">
+                <mat-icon>print</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="showIncentives(element)" matTooltip="Lookup Incentives by VIN">
+                <mat-icon>attach_money</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="showVinDetail(element)" matTooltip="VIN Details">
+                <mat-icon>note</mat-icon>
+              </button>
+              <!-- <button mat-icon-button color="primary" matTooltip="Online Order Guide">
+                <mat-icon>vpn_key</mat-icon>
+              </button> -->
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="cu-btn">
+    <div class="primary-btn">
+      <!-- <button mat-raised-button color="primary" (click)="addToTradingPartner()">Add to My Trading Partners</button> -->
+      <button mat-raised-button color="primary" (click)="compareVehicle()">Compare</button>
+      <button mat-raised-button color="primary" (click)="viewReport()">View Reports</button>
+    </div>
+  </div>
+</div>

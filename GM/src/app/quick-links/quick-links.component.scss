@@ -1,0 +1,11 @@
+@import "../../assets/styles/scss/index";
+
+.mat-action-row {
+  button {
+    span {
+      .mat-icon {
+        color: $darkblue;
+      }
+    }
+  }
+}

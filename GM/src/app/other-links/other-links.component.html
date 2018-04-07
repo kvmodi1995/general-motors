@@ -1,0 +1,43 @@
+<div>
+  <mat-form-field>
+    <mat-select placeholder="Select View" [(ngModel)]="selectedView" (change)="viewChange($event)">
+      <mat-option value="customer">Customer View</mat-option>
+      <mat-option value="dealer">Dealer View</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="heading-dropdown-title">
+      <mat-panel-title>
+        Other Links
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+      <!-- <mat-list-item class="list-item-link">
+        <a>
+          <i class="material-icons">people</i>
+          <span>Online Order Guide</span>
+        </a>
+      </mat-list-item> -->
+      <!-- <mat-list-item class="list-item-link">
+        <a>
+          <i class="material-icons">recent_actors</i>
+          <span>Brand Site’s You Tube Channel</span>
+        </a>
+      </mat-list-item> -->
+      <mat-list-item *ngIf="selectedView==='dealer'">
+        <a (click)="printInvoice($event)">
+          <i class="material-icons">print</i>
+          <span class="list-item-link">Print Invoice</span>
+        </a>
+      </mat-list-item>
+      <mat-list-item>
+        <a (click)="showIncentives($event)">
+          <i class="material-icons">local_parking</i>
+          <span class="list-item-link">Look up Incentives by VIN</span>
+        </a>
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</div>

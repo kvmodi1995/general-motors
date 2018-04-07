@@ -1,0 +1,34 @@
+<div class="dealer-owning-table">
+  <table class="owning-dealer-table">
+    <thead>
+    <tr>
+      <th>Trade Contact</th>
+      <th>Name</th>
+      <th>Title</th>
+      <th>Phone</th>
+      <th>Ext</th>
+      <th>Fax</th>
+      <th>Email</th>
+      <th>Preferred Mode Of Contact</th>
+      <th>Text Message</th>
+      <th>Additional Info</th>
+      <th *ngIf="vinDetail">GM Marketing Information</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let detail of data; let $index = index">
+      <td>{{ detail.id }}</td>
+      <td>{{ detail.name }}</td>
+      <td>{{ detail.title }}</td>
+      <td>{{ detail.phone }}</td>
+      <td>{{ detail.ext }}</td>
+      <td>{{ detail.fax }}</td>
+      <td>{{ detail.email }}</td>
+      <td></td>
+      <td>{{ detail.textMessage }}</td>
+      <td>{{ detail.additionalInfo }}</td>
+      <td *ngIf="vinDetail"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

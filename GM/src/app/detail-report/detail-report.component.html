@@ -1,0 +1,481 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif"/>
+</div>
+
+<general-motor-info-navbar [enablePrint]="enablePrint" (printClicked)="printReport()" [showHelp]="false"
+                           [showPrint]="true"></general-motor-info-navbar>
+<div id="printArea">
+  <div class="report-detail">
+    <div class="report-detail-top">
+      <div class="report-detail-type">
+        <div>
+          <mat-checkbox class="example-margin" [(ngModel)]="displayAdditionalVehicleInfo">Display Additional Vehicle
+            Information
+          </mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" [(ngModel)]="displayGmMarketingInfo">Display GM Marketing Information
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="report-detail-type">
+        <mat-form-field>
+          <mat-select placeholder="Report Type" [(ngModel)]="reportType">
+            <mat-option value="detail"> Detail</mat-option>
+            <mat-option value="summary"> Summary</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="report-detail-type">
+        <mat-form-field>
+          <mat-select placeholder="Report For" [(ngModel)]="reportFor">
+            <mat-option value="customer"> Customer</mat-option>
+            <mat-option value="dealer"> Dealer</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="report-detail-summary">
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header class="heading-dropdown-title">
+          <mat-panel-title style="text-transform: capitalize" class="test">
+            {{ reportType }} Report For {{ reportFor }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="reportFor === 'customer'" class="report-detail-dealer">
+          <div class="detail-dealer-input">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Customer/Company" [(ngModel)]="customer_company">
+            </mat-form-field>
+          </div>
+          <div class="detail-dealer-input">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Address" [(ngModel)]="address">
+            </mat-form-field>
+          </div>
+          <div class="detail-dealer-input">
+            <mat-form-field>
+              <mat-select placeholder="Sales Consultant" [(ngModel)]="salesConsultant">
+                <mat-option>null</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="reportType==='detail'">
+            <div *ngFor="let detail of data;let $index = index">
+              <div class="detail-dealer-table">
+                <table class="customer-detail-table">
+                  <thead>
+                  <tr>
+                    <th rowspan="2">Vehicle #{{ $index + 1 }}: {{ detail.Year }} {{ detail.MakeString }}
+                      {{ detail.ModelDescription }}
+                    </th>
+                    <th>VIN/Order #</th>
+                    <th>MSRP</th>
+                    <th>Stock #</th>
+                  </tr>
+                  <tr>
+                    <td> {{ detail.VinNumber }}</td>
+                    <td> {{ detail.MSRP?.Value | currency }}</td>
+                    <td> {{ detail.StockNumber }}</td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngIf="displayAdditionalVehicleInfo">
+                    <td>Additional Vehicle Information</td>
+                    <td colspan="3"> {{ detail.VehicleNote }}</td>
+                  </tr>
+                  <tr *ngIf="displayGmMarketingInfo">
+                    <td>GM Marketing Information</td>
+                    <td colspan="3"> {{ detail.MarketingText }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <div>
+                  <table class="customer-body-table">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Body Style:</span></td>
+                      <td> {{ detail.BodyStyle }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>PEG:</span></td>
+                      <td> {{ detail.PEG?.OptionCode }} - {{ detail.PEG?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Primary Color:</span></td>
+                      <td> {{ detail.primaryColor?.OptionCode }} - {{ detail.primaryColor?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Trim:</span></td>
+                      <td> {{ detail.trim?.OptionCode }} - {{ detail.trim?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Engine:</span></td>
+                      <td>{{ detail.engine?.OptionCode }} - {{ detail.engine?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Transmission:</span></td>
+                      <td>{{ detail.transmission?.OptionCode }} - {{ detail.transmission?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Options:</span></td>
+                      <td>
+                        <p *ngFor="let option of detail.Option; let $index = index;">
+                          <span *ngIf="$index % 2 === 0">
+                            {{ option.OptionCode }} - {{ option.OptionDescription }}
+                          </span>
+                        </p>
+                      </td>
+                      <td>
+                        <p *ngFor="let option of detail.Option; let $index = index;">
+                          <span *ngIf="$index % 2 !== 0">
+                            {{ option.OptionCode }} - {{ option.OptionDescription }}
+                          </span>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="cu-btn mat-form-field-wrapper">
+                  <div class="primary-btn">
+                    <button mat-raised-button color="primary" (click)="showVinDetail(detail)">
+                      Search Vehicle
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="reportType==='summary'">
+            <div *ngFor="let detail of data;let $index = index">
+              <div>
+                <span class="sub-title-border">
+                  Vehicle # {{ $index + 1 }}:  {{ detail.Year }} {{ detail.MakeString }} {{ detail.ModelDescription }}
+                </span>
+                <div class="summary-malibu-table">
+                  <div class="dealer-vin-order">
+                    <table class="customer-summary-table">
+                      <thead>
+                      <tr>
+                        <th>VIN/Order #</th>
+                        <th>MSRP</th>
+                        <th>Stock #</th>
+                        <th>PEG</th>
+                        <th>Primary Color</th>
+                        <th>Trim</th>
+                        <th>Engine</th>
+                        <th>Transmission</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{ detail.VinNumber }}</td>
+                        <td>{{ detail.MSRP?.Value | currency }}</td>
+                        <td>{{ detail.StockNumber }}</td>
+                        <td>{{ detail.PEG?.OptionCode }}</td>
+                        <td>{{ detail.primaryColor?.OptionCode }}</td>
+                        <td>{{ detail.trim?.OptionCode }}</td>
+                        <td>{{ detail.engine?.OptionCode }}</td>
+                        <td>{{ detail.transmission?.OptionCode }}</td>
+                      </tr>
+                      <tr *ngIf="displayAdditionalVehicleInfo">
+                        <td colspan="1">Additional Vehicle Information</td>
+                        <td colspan="7"> {{ detail.VehicleNote }}</td>
+                      </tr>
+                      <tr *ngIf="displayGmMarketingInfo">
+                        <td colspan="1">GM Marketing Information</td>
+                        <td colspan="7"> {{ detail.MarketingText }}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dealer-options">
+                <div class="dealer-options-left">Options:</div>
+                <div class="dealer-options-right">
+                  <p>
+                    <span *ngFor="let option of detail.listOfOptions; let isLast=last">
+                      {{ option  + (isLast ? '' : ', ') }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="cu-btn">
+                <div class="primary-btn">
+                  <button mat-raised-button color="primary">Select Vehicle</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="reportFor === 'dealer'">
+          <div class="dealer-report" *ngIf="reportType === 'detail'">
+            <div *ngFor="let detail of data; let $index = index">
+              <div class="detail-summary-table">
+                <table class="vehicle-detail">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span>Vehicle # {{ $index + 1 }}:</span></td>
+                    <td> {{ detail.Year }} {{ detail.MakeString }} {{ detail.ModelDescription }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span>Owning Dealer: BAC:</span></td>
+                    <td> {{ detail.Dealer.VendorId }}</td>
+                    <td></td>
+                    <td><span>Owning Dealer Code:</span></td>
+                    <td> {{ detail.Dealer.DealerCode }}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td> {{ detail.Dealer.Name }} <br>
+                      {{ detail.Dealer.Address?.StreetName }} <br>
+                      {{ detail.Dealer.Address?.City }}
+                      {{ detail.Dealer.Address?.RegionCode && ',' }}
+                      {{ detail.Dealer.Address?.RegionCode }}
+                      {{ detail.Dealer.Address?.PostalCode && '-' }}
+                      {{ detail.Dealer.Address?.PostalCode }}<br>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="dealer-owning-table">
+                <general-motor-owning-dealer [data]="tradeContact"></general-motor-owning-dealer>
+              </div>
+
+              <div class="dealer-vin-order">
+                <table class="body-table">
+                  <thead>
+                  <tr>
+                    <th>VIN/Order #</th>
+                    <th>Event Code</th>
+                    <th>MSRP</th>
+                    <th>Age(Days)</th>
+                    <th>Stock #</th>
+                    <th>DIP</th>
+                    <th>Employee Price</th>
+                    <th>Supplier Price</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>{{ detail.VinNumber }}</td>
+                    <td>{{ detail.Event[0].Id }} - {{ detail.Event[0].Description }}</td>
+                    <td>{{ detail.MSRP?.Value | currency }}</td>
+                    <td>{{ detail.Age }}</td>
+                    <td>{{ detail.StockNumber }}</td>
+                    <td>{{ detail.invoice310?.Value | currency }}</td>
+                    <td>{{ detail.employeePrice?.Value | currency }}</td>
+                    <td>{{ detail.supplierPrice?.Value | currency }}</td>
+                  </tr>
+                  <tr *ngIf="displayAdditionalVehicleInfo">
+                    <td colspan="2">Additional Vehicle Information</td>
+                    <td colspan="4">{{ detail.VehicleNote }}</td>
+                    <td colspan="2">Open/Incomplete Field Action(s): TBD</td>
+                  </tr>
+                  <tr *ngIf="displayGmMarketingInfo">
+                    <td colspan="2">GM Marketing Information</td>
+                    <td colspan="6">{{ detail.MarketingText }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="report-detail-summary">
+                <div class="detail-summary-table">
+                  <table class="body-style">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Body Style:</span></td>
+                      <td> {{ detail.BodyStyle }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>PEG:</span></td>
+                      <td> {{ detail.PEG?.OptionCode }} - {{ detail.PEG?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Primary Color:</span></td>
+                      <td> {{ detail.primaryColor?.OptionCode }} - {{ detail.primaryColor?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Trim:</span></td>
+                      <td> {{ detail.trim?.OptionCode }} - {{ detail.trim?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Engine:</span></td>
+                      <td>{{ detail.engine?.OptionCode }} - {{ detail.engine?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Transmission:</span></td>
+                      <td>{{ detail.transmission?.OptionCode }} - {{ detail.transmission?.OptionDescription }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><span>Options:</span></td>
+                      <td>
+                        <p *ngFor="let option of detail.Option; let $index = index;">
+                          <span *ngIf="$index % 2 !== 0">
+                            {{ option.OptionCode }} - {{ option.OptionDescription }}
+                          </span>
+                        </p>
+                      </td>
+                      <td>
+                        <p *ngFor="let option of detail.Option; let $index = index;">
+                          <span *ngIf="$index % 2 === 0">
+                            {{ option.OptionCode }} - {{ option.OptionDescription }}
+                          </span>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="cu-btn">
+                  <div class="primary-btn">
+                    <button mat-raised-button color="primary" (click)="showVinDetail(detail)">
+                      Search Vehicle
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="reportType==='summary'">
+            <div *ngFor="let detail of data; let $index = index">
+              <div>
+              <span *ngIf="!$index"
+                    class="sub-title-border">{{ detail.Year }} {{ detail.MakeString }} {{ detail.ModelDescription }}
+              </span>
+                <div class="summary-malibu-table">
+                  <div class="dealer-vin-order">
+                    <table class="dealer-summary-table">
+                      <thead>
+                        <tr>
+                          <th>Body Type</th>
+                          <th>MSRP</th>
+                          <th>VIN/Order #</th>
+                          <th>Stock #</th>
+                          <th>Dealership Name</th>
+                          <th>BAC/Dealer Code</th>
+                          <th>Location</th>
+                          <th>Primary Contact</th>
+                          <th>Primary Contact Info</th>
+                          <th>Distance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{ detail.BodyStyle }}</td>
+                          <td>{{ detail.MSRP?.Value | currency }}</td>
+                          <td>{{ detail.VinNumber }} / {{ detail.OrderNumber }}</td>
+                          <td>{{ detail.StockNumber }}</td>
+                          <td>{{ detail.Dealer.Name }}</td>
+                          <td>{{ detail.Dealer.VendorId }}/ {{ detail.Dealer.DealerCode }}</td>
+                          <td>{{ detail.Dealer.Address?.City }}, {{ detail.Dealer.Address?.RegionCode }}</td>
+                          <td></td>
+                          <td>
+                            <span *ngIf="detail.Dealer.Address?.Email">
+                              Email: <br>
+                              {{ detail.Dealer.Address?.Email }}
+                            </span>
+                            <span *ngIf="detail.Dealer.Address?.Phone">
+                              Phone: <br>
+                              {{ detail.Dealer.Address?.Phone }}
+                            </span>
+                            <span *ngIf="detail.Dealer.Address?.Fax">
+                              Fax: <br>
+                              {{ detail.Dealer.Address?.Fax }}
+                            </span>
+                          </td>
+                          <td>{{ detail.Distance }} Miles</td>
+                        </tr>
+                        <tr *ngIf="displayAdditionalVehicleInfo">
+                          <td colspan="2">Additional Vehicle Information</td>
+                          <td colspan="6"> {{ detail.VehicleNote }}</td>
+                          <td colspan="2">Open/Incomplete Field Action(s): TBD</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">GM Marketing Information</td>
+                          <td colspan="8"> {{ detail.MarketingText }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="dealer-options">
+                <div class="dealer-options-left">Options:</div>
+                <div class="dealer-options-right">
+                  <p>
+                   <span *ngFor="let option of detail.listOfOptions; let isLast=last">
+                      <a href="">{{ option }}</a>{{ isLast ? '' : ', ' }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="cu-btn">
+                <div class="primary-btn">
+                  <button mat-raised-button color="primary">Select Vehicle</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <div class="vin-disclaimer-wrp">
+        <div *ngIf="reportFor==='dealer'" class="vin-indicator">
+          "~" indicates vehicle belongs to Trading Partner's inventory
+        </div>
+        <div *ngIf="reportType==='summ'" class="vin-indicator">
+          "*" indicates preferred contact method
+        </div>
+        <span>Disclaimer:</span>
+        <div class="vin-disclaimer-text">
+          <p>GM has tried to make the pricing information provided in this summary accurate. Please refer to actual
+            vehicle invoice, however, for complete pricing information. GM will not make any sales or policy adjustments
+            in the case of inaccurate pricing information in this summary.
+            Cash Allowance is calculated based on your dealership's zip code. Customer must take delivery by
+            01/02/2018.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

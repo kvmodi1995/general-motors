@@ -1,0 +1,38 @@
+@import "../../assets/styles/scss/index";
+
+.trading-partner {
+  .trading-partner-table {
+    .mat-table {
+      .mat-header-row {
+        background: $dodgerblue;
+        .mat-header-cell {
+          color: $white;
+          font-size: $font-sm;
+          @extend .font-roboto-regular;
+          overflow: visible;
+        }
+      }
+      .mat-row {
+        .mat-cell {
+          overflow: visible;
+          font-size: $font-sm;
+          @extend .font-roboto-regular;
+          color: $dimgray;
+        }
+      }
+    }
+    .mat-paginator {
+      background: $dodgerblue;
+      display: block;
+    }
+  }
+  .cu-btn {
+    float: right;
+    margin-top: 2%;
+    .primary-btn {
+      button {
+        margin-left: 5px;
+      }
+    }
+  }
+}

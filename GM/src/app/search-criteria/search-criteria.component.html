@@ -1,0 +1,95 @@
+<div class="search-location-criteria">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="heading-dropdown-title">
+      <mat-panel-title>
+        Search by Location
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="sub-title">
+      Search Criteria
+    </div>
+    <div class="search-criteria" *ngIf="searchCriteriaName === 'dealer';else vehicleCriteria">
+      <div class="search-criteria-name">
+        <span>Search By {{ selectedSearch }}:</span>
+        <div *ngIf="searchCriteria.name">
+          {{ searchCriteria.name }}
+        </div>
+        <div *ngIf="searchCriteria.city">
+          {{ searchCriteria.city }}
+        </div>
+        <div *ngIf="searchCriteria.code">
+          {{ searchCriteria.code }}
+        </div>
+      </div>
+      <div class="search-criteria-name">
+        <div *ngIf="searchCriteria.state">
+          <span>State:</span> {{ searchCriteria.state.abbr }}
+        </div>
+        <div *ngIf="searchCriteria.radius">
+          {{ searchCriteria.radius }} Miles
+        </div>
+        <div *ngIf="searchCriteria.number">
+          {{ searchCriteria.number }}
+        </div>
+      </div>
+      <div class="search-criteria-name">
+        <span>Division:</span> {{ division }}
+      </div>
+    </div>
+    <ng-template #vehicleCriteria>
+      <div class="vehicle-criteria">
+        <table>
+          <tr>
+            <td class="title"> Year: </td>
+            <td class="criteria-body"> {{ searchCriteria.year }} </td>
+            <td class="title"> Make: </td>
+            <td class="criteria-body"> {{ searchCriteria.make.Description }} </td>
+          </tr>
+          <tr>
+            <td class="title"> Model: </td>
+            <td class="criteria-body"> {{ searchCriteria.model }} </td>
+            <td class="title"> Body Style: </td>
+            <td class="criteria-body">
+              <ul>
+                <li *ngFor="let style of searchCriteria.bodyStyle">{{ style.style }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"> Location Criteria: </td>
+            <td class="criteria-body">
+              <ul>
+                <li *ngFor="let criteria of searchCriteria.searchedCriteria">{{ criteria.value }}</li>
+              </ul>
+            </td>
+            <td *ngIf="searchCriteria.options && searchCriteria.options?.want.length || searchCriteria.options?.doNot.length" class="title"> Options: </td>
+            <td *ngIf="searchCriteria.options && searchCriteria.options?.want.length || searchCriteria.options?.doNot.length" class="criteria-body">
+              <ul *ngIf="searchCriteria.options.want?.length"> Want:
+                <li *ngFor="let criteria of searchCriteria.options.want">
+                  {{ criteria.OptionID }} - {{ criteria.OptionName }}
+                </li>
+              </ul>
+              <ul *ngIf="searchCriteria.options.doNot?.length"> Don't Want:
+                <li *ngFor="let criteria of searchCriteria.options.doNot">
+                  {{ criteria.OptionID }} - {{ criteria.OptionName }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"> Earliest Event Code: </td>
+            <td class="criteria-body"> {{ searchCriteria.earliestEventCode.code }} - {{ searchCriteria.earliestEventCode.value }} </td>
+            <td *ngIf="searchCriteria.maxMSRP" class="title"> Max MSRP: </td>
+            <td *ngIf="searchCriteria.maxMSRP" class="criteria-body"> {{ searchCriteria.maxMSRP }} </td>
+          </tr>
+        </table>
+      </div>
+    </ng-template>
+
+  </mat-expansion-panel>
+</div>
+<div class="cu-btn">
+  <div class="primary-btn">
+    <button mat-button color="basic" (click)="editSearch()">Edit Search Criteria</button>
+  </div>
+</div>

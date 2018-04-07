@@ -1,0 +1,117 @@
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header class="heading-dropdown-title">
+    <mat-panel-title>
+      VIN Specifications
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <table>
+    <tbody>
+      <tr>
+        <td valign="top" width="335">
+          <table id="vin-specification-left">
+            <tbody>
+              <tr>
+                <td width="120"><strong>VIN:</strong></td>
+                <td width="200">{{ data.VinNumber }}</td>
+              </tr>
+              <tr>
+                <td><strong>Model Year:</strong></td>
+                <td>{{ data.Year }}</td>
+              </tr>
+              <tr>
+                <td><strong>Make:</strong></td>
+                <td>{{ data.MakeString }}</td>
+              </tr>
+              <tr>
+                <td><strong>Model:</strong></td>
+                <td>{{ data.ModelDescription }} {{ data.BodyStyle }}</td>
+              </tr>
+              <tr>
+                <td><strong>PEG:</strong></td>
+                <td>{{ PEG?.OptionCode }} - {{ PEG?.OptionDescription }}</td>
+              </tr>
+              <tr>
+                <td><strong>Primary Color:</strong></td>
+                <td>{{ primaryColor?.OptionCode }} - {{ primaryColor?.OptionDescription }}</td>
+              </tr>
+              <tr>
+                <td><strong>Trim:</strong></td>
+                <td>{{ trim?.OptionCode }} - {{ trim?.OptionDescription }}</td>
+              </tr>
+              <tr>
+                <td><strong>Engine:</strong></td>
+                <td>{{ engine?.OptionCode }} - {{ engine?.OptionDescription }}</td>
+              </tr>
+              <tr>
+                <td><strong>Transmission:</strong></td>
+                <td>{{ transmission?.OptionCode }} - {{ transmission?.OptionDescription }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td width="20px"></td>
+        <td valign="top" width="335">
+          <table id="vin-specification-right">
+            <tbody>
+              <tr>
+                <td width="140"></td>
+                <td width="200"></td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Event Code:</strong> <br></td>
+                <td>{{ data.Event && data.Event[0].Id }} - {{ data.Event && data.Event[0].Description }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Order #:</strong></td>
+                <td>{{ data.OrderNumber }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>MSRP:</strong></td>
+                <td>{{ MSRP?.Value | customCurrency }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Order Type:</strong></td>
+                <td>{{ data.OrderType }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Age Of Inventory:</strong></td>
+                <td>{{ data.Age }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Stock #:</strong></td>
+                <td>{{ data.StockNumber }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Inventory Status:</strong></td>
+                <td>{{ data.InventoryStatus }}</td>
+              </tr>
+              <tr *ngIf="view === 'dealer'">
+                <td class="specification-field-title"><strong>DIP:</strong></td>
+                <td>{{ invoice310?.Value | customCurrency }}</td>
+              </tr>
+              <tr *ngIf="view === 'dealer'">
+                <td class="specification-field-title"><strong>Employee Price:</strong></td>
+                <td>{{ employeePrice?.Value | customCurrency }}</td>
+              </tr>
+              <tr *ngIf="view === 'dealer'">
+                <td class="specification-field-title"><strong>Supplier Price:</strong></td>
+                <td>{{ supplierPrice?.Value | customCurrency }}</td>
+              </tr>
+              <tr>
+                <td class="specification-field-title"><strong>Total Cash Allowance:*</strong></td>
+                <td>{{ data.TotalCashAllowance | customCurrency }}
+                  <span *ngIf="data.TCAExpiration">
+                    (Expires on {{ data.TCAExpiration }})
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</mat-expansion-panel>

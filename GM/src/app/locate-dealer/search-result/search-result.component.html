@@ -1,0 +1,100 @@
+<div *ngIf="!data.length" class="mat-error">
+  No records Found.
+</div>
+<div *ngIf="addedToPartnerError">
+  You cannot add your dealership as a Trading Partner. Please de-select your dealership and try again.
+</div>
+<div *ngIf="addedToPartner">
+  The selected dealer(s) have been added to your Trading Partners.
+</div>
+
+<general-motor-search-criteria [selectedSearch]="selectedSearch"
+                               [searchCriteria]="searchCriteria"
+                               [searchCriteriaName]="'dealer'"
+                               [division]="division"
+                               (editSearchClicked)="editSearchClick()"></general-motor-search-criteria>
+
+
+<div class="search-location-results">
+  <div class="search-results-exact">
+    <div class="search-results-data">
+      <strong>Search Results:</strong>
+      <span>{{ data.length }} exact matches found</span>
+    </div>
+    <div class="search-results-date">
+      <strong>Current as of:</strong>
+      <span>{{ today | date:'MM/dd/yyyy' }} - {{ today | date:'shortTime' }} {{ today | customTimeZone }}</span>
+    </div>
+  </div>
+
+  <div class="search-results-table example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- Select Checkbox Column -->
+      <ng-container matColumnDef="selected">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [disabled]="!dataSource.filteredData.length"
+                        [checked]="isMasterToggleChecked()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+
+      <!-- BAC Column -->
+      <ng-container matColumnDef="BAC">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> BAC </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.BAC }}</mat-cell>
+      </ng-container>
+
+      <!-- Dealer Name Column -->
+      <ng-container matColumnDef="dealerName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Dealer Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.dealerName }}</mat-cell>
+      </ng-container>
+
+      <!-- Owning Dealer Code Column -->
+      <ng-container matColumnDef="owingDealerCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Owning Dealer Code </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.owingDealerCode }}</mat-cell>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="Address">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.Address }}</mat-cell>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.phone }}</mat-cell>
+      </ng-container>
+
+      <!-- Fax Column -->
+      <ng-container matColumnDef="fax">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Fax</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.fax }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="100"
+                   [pageSize]="5">
+    </mat-paginator>
+  </div>
+</div>
+
+<div class="cu-btn">
+  <div class="primary-btn">
+    <button mat-raised-button color="primary" (click)="addToTradingPartner()">Add to My Trading Partners</button>
+  </div>
+</div>

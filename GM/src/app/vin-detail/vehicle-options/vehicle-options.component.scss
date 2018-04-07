@@ -1,0 +1,22 @@
+@import "../../../assets/styles/scss/index";
+
+.vehicle-chargeable {
+  margin-top: 10px;
+  p {
+    margin: 0;
+    color: #1a6699;
+    font-size: 16px;
+  }
+  table {
+    width: 100%;
+    td {
+      color: $dimgray;
+    }
+  }
+  ul {
+    @extend .vehicle-chargeable;
+    li {
+      color: $dimgray;
+    }
+  }
+}

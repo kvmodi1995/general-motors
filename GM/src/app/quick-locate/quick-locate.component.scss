@@ -1,0 +1,17 @@
+@import "../../assets/styles/scss/index";
+
+.mat-expansion-panel {
+  .example-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+    margin-top: 8px;
+    .example-radio-button {
+      margin: 8px 0;
+
+    }
+  }
+  .example-full-width {
+    width: 100%;
+  }
+}
+

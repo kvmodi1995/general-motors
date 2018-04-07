@@ -1,0 +1,55 @@
+@import "../../assets/styles/scss/index";
+
+.search-location-criteria {
+  margin-bottom: 10px;
+  .search-criteria {
+    padding: 0 10px;
+    .search-criteria-name {
+      color: $dodgerblue;
+      padding: 5px 0;
+      span {
+        font-size: $font-sm;
+        color: $dimgray;
+        @extend .font-roboto-regular;
+      }
+    }
+  }
+  .vehicle-criteria {
+    min-height: 185px;
+    max-height: 185px;
+    overflow-y: scroll;
+    td.title {
+      font-size: $font-sm;
+      color: $darkblue;
+      @extend .font-roboto-regular;
+      vertical-align: top;
+    }
+    .search-criteria-model {
+      display: table;
+      width: 100%;
+      .criteria-list {
+        display: table-cell;
+        font-size: $font-sm;
+        color: $dimgray;
+        @extend .font-roboto-regular;
+      }
+    }
+    .criteria-body {
+      margin: 10px 0;
+      vertical-align: top;
+      ul {
+        display: inline-block;
+        vertical-align: top;
+        li {
+          font-size: $font-sm;
+          color: $dimgray;
+          @extend .font-roboto-regular;
+        }
+      }
+    }
+  }
+}
+
+.cu-btn {
+  text-align: right
+}

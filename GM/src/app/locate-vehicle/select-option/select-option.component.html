@@ -1,0 +1,81 @@
+<mat-expansion-panel [expanded]="showOptions">
+  <mat-expansion-panel-header class="heading-dropdown-title">
+    <mat-panel-title>
+      Select Options
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="example-container mat-elevation-z8">
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput [(ngModel)]="searchString" (keyup)="applyFilter(searchString)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+    <div class="want-dont-btn want-dont-top">
+      <button mat-icon-button>
+        <mat-icon aria-label="Add" class="green-text">done</mat-icon>
+        Want
+      </button>
+      <button mat-icon-button>
+        <mat-icon aria-label="Add" class="red-text">close</mat-icon>
+        Don't Want
+      </button>
+    </div>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)">
+      <mat-tab *ngFor='let key of objectKeys(selectOptions)' [label]="key">
+        <div class="select-all-checkbox">
+          <mat-checkbox class="example-margin want-icon"
+                        [(ngModel)]="wantAll[key]"
+                        [disabled]="!selectOptions[key].data.length && !searchedData.length"
+                        (change)="selectAll($event, 'want', key)">
+          </mat-checkbox>
+          <mat-checkbox class="example-margin dont-want-icon"
+                        [(ngModel)]="doNotAll[key]"
+                        [disabled]="!selectOptions[key].data.length && !searchedData.length"
+                        (change)="selectAll($event, 'doNot', key)">
+          </mat-checkbox>
+          Select All
+        </div>
+        <ul *ngIf="!searchString; else searchedResult">
+          <li *ngFor="let name of selectOptions[key].data">
+            <mat-checkbox class="example-margin want-icon" [(ngModel)]="name.want"
+                          (change)="selectWant($event, name, key)"></mat-checkbox>
+            <mat-checkbox class="example-margin dont-want-icon" [(ngModel)]="name.doNot"
+                          (change)="selectDoNot($event, name, key)"></mat-checkbox>
+            {{ name.OptionID }} - {{ name.OptionName }}
+          </li>
+        </ul>
+        <ng-template #searchedResult>
+          <ul>
+            <li *ngFor="let name of searchedData">
+              <mat-checkbox class="example-margin want-icon" [(ngModel)]="name.want"></mat-checkbox>
+              <mat-checkbox class="example-margin dont-want-icon" [(ngModel)]="name.doNot"></mat-checkbox>
+              {{ name.OptionID }} - {{ name.OptionName }}
+            </li>
+          </ul>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="select-want-btn">
+    <div class="cu-btn">
+      <mat-action-row>
+        <div class="want-dont-btn">
+          <!--<button mat-icon-button>
+            <mat-icon aria-label="Add" class="green-text">done</mat-icon>
+            Want
+          </button>
+          <button mat-icon-button>
+            <mat-icon aria-label="Add" class="red-text">close</mat-icon>
+            Don't Want
+          </button>-->
+        </div>
+
+        <div class="primary-btn">
+          <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!(totalWant || totalDoNot)">
+            Summary
+          </button>
+        </div>
+      </mat-action-row>
+    </div>
+  </div>
+</mat-expansion-panel>

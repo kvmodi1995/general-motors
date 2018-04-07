@@ -1,0 +1,34 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif" />
+</div>
+
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header class="heading-dropdown-title">
+    <mat-panel-title>
+      Dealer Detail
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="dealer-own-detail">
+    <div>
+      BAC: {{ bac }} <br>
+      {{ dealer.Name }}<br>
+      2540 PRAIRIE CROSSING DR<br>
+      SPRINGFIELD, IL 62711<br>
+    </div>
+    <div>
+      CHEVROLET : 47291
+    </div>
+  </div>
+  <hr>
+  <div>
+    Division: CHEVROLET<br>
+    Dealer Code: 47291
+  </div>
+  <general-motor-owning-dealer [data]="tradeContact"></general-motor-owning-dealer>
+  <div class="cu-btn">
+    <mat-action-row class="primary-btn">
+      <button mat-raised-button>Add to My Trading Partner</button>
+    </mat-action-row>
+  </div>
+
+</mat-expansion-panel>

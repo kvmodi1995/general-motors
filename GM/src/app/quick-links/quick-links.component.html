@@ -1,0 +1,31 @@
+<div *ngIf="selectView">
+  <mat-form-field>
+    <mat-select placeholder="Select View" [(ngModel)]="selectedView">
+      <mat-option value="customer">Customer View</mat-option>
+      <mat-option value="dealer">Dealer View</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="heading-dropdown-title">
+      <mat-panel-title>
+        Quick Links
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-nav-list>
+      <mat-list-item (click)="openTradingPartner()"><a matLine><i class="material-icons">people</i> <span>Trading Partners</span></a></mat-list-item>
+      <mat-list-item><a href="#"><i class="material-icons">recent_actors</i> <span>Dealership Contact Information</span></a></mat-list-item>
+      <mat-list-item><a href="#"><i class="material-icons">local_parking</i> <span>Manage Trade Packages</span></a></mat-list-item>
+      <mat-list-item><a href="#"><i class="material-icons">time_to_leave</i> <span>Manage Trade Requests</span></a></mat-list-item>
+      <mat-list-item><a href="#"><i class="material-icons">local_parking</i> <span>Manage Additional Vehicle Info</span></a></mat-list-item>
+    </mat-nav-list>
+    <div class="quick-link-add">
+    </div>
+    <mat-action-row>
+      <button mat-icon-button type="button">
+        <mat-icon aria-label="Add" class="green-text">add</mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</div>

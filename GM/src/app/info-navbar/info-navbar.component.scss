@@ -1,0 +1,13 @@
+@import "../../assets/styles/scss/index";
+
+.info-top-header {
+  background: $dodgerblue;
+  padding: 0 0px;
+  text-align: right;
+  box-shadow: 0 3px 10px 0px rgba(123, 129, 144, 0.5);
+  border: 1px solid #9099b1;
+  margin-bottom: 10px;
+  button {
+    color: #586482;
+  }
+}

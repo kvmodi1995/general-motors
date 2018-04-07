@@ -1,0 +1,132 @@
+<div class="locate-vehicle-loader" *ngIf="loading">
+  <img src="assets/images/Loading.gif"/>
+</div>
+
+<general-motor-info-navbar (printClicked)="printReport()"
+                           [showHelp]="true"
+                           [showPrint]="true"
+                           [enablePrint]="enablePrint">
+</general-motor-info-navbar>
+
+<div class="vin-detail-payment">
+  <div class="vin-specifications">
+    <div class="vin-specifi-detail">
+      <general-motor-vin-specification [view]="selectedView" [data]="data"></general-motor-vin-specification>
+    </div>
+
+    <!-- <div class="vin-incomplete" *ngIf="selectedView === 'dealer'">
+      <mat-expansion-panel [expanded]="incompleteData.length>0" [disabled]="incompleteData.length === 0">
+        <mat-expansion-panel-header class="heading-dropdown-title">
+          <mat-panel-title>Open/Incomplete Field Action(s): {{ incompleteData.length }}</mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </div> -->
+
+    <div class="vin-vehicle-options">
+      <general-motor-vehicle-options [options]="data['Option']" [view]="selectedView"></general-motor-vehicle-options>
+    </div>
+
+    <div class="vin-display-footer">
+      <div class="vin-display-info">
+        <mat-checkbox [(ngModel)]="displayAdditionalVehicleInfo">
+          Display Additional Vehicle Information
+        </mat-checkbox>
+        <div [hidden]="!displayAdditionalVehicleInfo">
+          <mat-form-field class="example-full-width">
+            <textarea matInput [(ngModel)]="data['vehicleInformation']"
+                  placeholder="Additional Vehicle Information (Text Only - 300 characters maximum length)"></textarea>
+          </mat-form-field>
+          <!-- <div class="cu-btn">
+            <div class="primary-btn">
+              <button mat-raised-button color="primary">Update</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="vin-display-info">
+        <mat-checkbox [(ngModel)]="displayGmMarketingInfo">
+          Display GM Marketing Information
+        </mat-checkbox>
+        <div [hidden]="!displayGmMarketingInfo">
+          <mat-form-field class="example-full-width">
+            <textarea matInput [(ngModel)]="data['MarketingText']"
+                placeholder="GM Marketing Information:"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-links-block">
+    <div class="quick-block">
+      <general-motor-other-links
+        (viewChanged)="changeView($event)"
+        (invoicePrintClicked)="printInvoice()"
+        (showIncentivesClicked)="showIncentives()"></general-motor-other-links>
+    </div>
+    <div class="standard-payment">
+      <general-motor-standard-payment-estimator [data]="data['Price']"></general-motor-standard-payment-estimator>
+    </div>
+  </div>
+</div>
+
+<div class="vin-owning-dealer">
+  <div class="vin-display-info" *ngIf="selectedView === 'dealer'">
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header class="heading-dropdown-title">
+        <mat-panel-title>Owning Dealer</mat-panel-title>
+      </mat-expansion-panel-header>
+      <table id="dealer-detail">
+        <tr class="no-display">
+          <td>Owning Dealer</td>
+        </tr>
+        <tr>
+          <td>
+            BAC: {{ data['Dealer']?.VendorId }} <br>
+            {{ data['Dealer']?.Name }} <br>
+            {{ data['Dealer']?.Address?.StreetName }} <br>
+            {{ data['Dealer']?.Address?.City }}{{ data['Dealer']?.Address?.RegionCode && ',' }}
+            {{ data['Dealer']?.Address?.RegionCode }} {{ data['Dealer']?.Address?.RegionCode && '-' }}
+            {{ data['Dealer']?.Address?.PostalCode}}<br>
+            Phone: {{ data['Dealer']?.Address?.Phone }}<br>
+            Fax: {{ data['Dealer']?.Address?.Fax }}<br>
+          </td>
+          <td>
+            {{ data['MakeString'] }}: {{ data['Dealer']?.DealerCode }}
+          </td>
+        </tr>
+      </table>
+      <general-motor-owning-dealer [data]="tradeContact" [vinDetail]="true"></general-motor-owning-dealer>
+      <div class="cu-btn">
+        <div class="primary-btn">
+          <mat-action-row>
+            <!-- <button mat-raised-button color="primary" (click)="emailCustomer()">Email Customer</button> -->
+            <!-- <button mat-raised-button color="primary" (click)="addToTradingPartner()">Add to My Trading Partners</button> -->
+            <button mat-raised-button color="primary" (click)="viewReport()">View Report</button>
+          </mat-action-row>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <div class="vin-disclaimer-wrp">
+    <span>Disclaimer:</span>
+    <div class="vin-disclaimer-text" id="vin-disclaimer-text">
+      <p>GM has tried to make the pricing information provided in this summary accurate. Please refer to actual
+        vehicle invoice, however, for complete pricing information. GM will not make any sales or policy adjustments
+        in the case of inaccurate pricing information in this summary.
+        Cash Allowance is calculated based on your dealership's zip code. Customer must take delivery by
+        01/02/2018.</p>
+    </div>
+  </div>
+</div>
+
+<table id="dealer-address" class="no-display">
+  <tr>
+    <td>Dealer Detail</td>
+  </tr>
+  <tr>
+    <td>
+      {{ data['Dealer']?.Name }} <br> {{ data['Dealer']?.Address?.StreetName }} <br> {{ data['Dealer']?.Address?.City }}{{ data['Dealer']?.Address?.RegionCode && ',' }} {{ data['Dealer']?.Address?.RegionCode }} {{ data['Dealer']?.Address?.RegionCode && '-' }} {{ data['Dealer']?.Address?.PostalCode }}<br> Phone: {{ data['Dealer']?.Address?.Phone }}<br> Fax: {{ data['Dealer']?.Address?.Fax }}<br>
+    </td>
+  </tr>
+</table>

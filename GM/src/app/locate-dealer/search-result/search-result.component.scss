@@ -1,0 +1,64 @@
+@import "../../../assets/styles/scss/index";
+
+.search-location-results {
+  margin: 10px 0;
+  .search-results-exact {
+    display: table;
+    width: 100%;
+    padding-bottom: 10px;
+    .search-results-data {
+      display: table-cell;
+      strong {
+        color: $darkblue;
+        font-size: $font-sm;
+      }
+      span {
+        color: $darkblue;
+        font-size: $font-sm;
+      }
+    }
+    .search-results-date {
+      display: table-cell;
+      text-align: right;
+      strong {
+        color: $darkblue;
+        font-size: $font-sm;
+      }
+      span {
+        color: $darkblue;
+        font-size: $font-sm;
+      }
+    }
+  }
+  .search-results-table {
+    mat-table {
+      mat-header-row {
+        background: $dodgerblue;
+        mat-header-cell {
+          color: $white;
+          font-size: $font-sm;
+          padding: 0 5px;
+          overflow: visible;
+        }
+      }
+      mat-row {
+        background: $white;
+        mat-cell {
+          overflow: visible;
+          word-break: break-all;
+          padding: 0 5px;
+        }
+      }
+    }
+    mat-paginator {
+      background: $dodgerblue;
+      display: block;
+      color: $white;
+
+    }
+  }
+}
+
+.cu-btn {
+  text-align: right
+}

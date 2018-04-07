@@ -1,0 +1,12 @@
+<div class="info-top-header">
+  <div class="container">
+    <div class="info-sub-header">
+      <button mat-icon-button color="primary" (click)="print($event)" *ngIf="showPrint" [disabled]="!enablePrint">
+        <mat-icon>print</mat-icon>
+      </button>
+      <button mat-icon-button color="primary"(click)="openHelpfulLinks()"  *ngIf="showHelp">
+        <mat-icon>help</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

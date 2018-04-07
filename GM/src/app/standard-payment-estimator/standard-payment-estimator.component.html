@@ -1,0 +1,61 @@
+<div class="payment-estimator">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="heading-dropdown-title">
+      <mat-panel-title>
+        Standard Payment Estimator
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form #paymentForm="ngForm" [formGroup]="form" (ngSubmit)="calculatePayment(paymentForm)">
+      <div>
+        <mat-form-field>
+          <span matPrefix>$ &nbsp;</span>
+          <input matInput placeholder="Final Price" formControlName="finalPrice" type="number">
+          <mat-error *ngIf="form.controls['finalPrice'].errors">
+            Please enter valid Final Price
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Term" formControlName="term" type="number">
+          <span matSuffix>months</span>
+          <mat-error *ngIf="form.controls['term'].errors">
+            Term must be between 1 and 120 months
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="APR" formControlName="APR" type="number">
+          <span matSuffix>%</span>
+          <mat-error *ngIf="form.controls['APR'].errors">
+            APR must be between 0% and 20%
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <span matPrefix>$ &nbsp;</span>
+          <input matInput placeholder="Cash Down" formControlName="cashDown" type="number">
+          <mat-error *ngIf="form.controls['cashDown']?.touched && form.controls['cashDown']?.errors">
+            Cash Down cannot be negative or greater than final price<br> Please enter valid Cash Down
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="display-payment">
+        <span class="sub-title-text">Payment :</span>
+        <span *ngIf="payment">
+          {{ payment?.toFixed(2) }}
+        </span>
+      </div>
+      <div class="cu-btn">
+        <div class="primary-btn">
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.value.cashDown > form.value.finalPrice">Calculate</button>
+        </div>
+      </div>
+    </form>
+    <div>
+      <p class="text-info-gray">Disclaimer Payments and other terms are estimates and are for example purposes only. Tax, title, license, dealer fees and optional equipment may not be included.</p>
+    </div>
+  </mat-expansion-panel>
+</div>
